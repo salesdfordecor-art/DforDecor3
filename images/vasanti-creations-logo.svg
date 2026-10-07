@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="180" viewBox="0 0 720 180">
+<rect width="720" height="180" rx="28" fill="#fffaf7"/>
+<text x="30" y="88" font-family="Georgia,serif" font-size="58" font-weight="700" fill="#713342">VASANTI</text>
+<text x="32" y="140" font-family="Arial,sans-serif" font-size="27" letter-spacing="8" font-weight="700" fill="#c99452">CREATIONS</text>
+<path d="M610 48c28 18 45 42 48 75M620 48c-22 3-42 14-55 31" fill="none" stroke="#c99452" stroke-width="6" stroke-linecap="round"/>
+</svg>
