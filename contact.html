@@ -18,7 +18,6 @@
 
   <!-- =====================================================
        CONTACT HERO
-       KEEP EXISTING HERO BAR
   ====================================================== -->
 
   <section class="page-hero">
@@ -29,219 +28,316 @@
 
       <h1>Contact Us</h1>
 
-      <p>  For product availability, bulk quantity, custom packaging or
-          pricing, contact us directly.</p>
+      <p>
+        For product availability, bulk quantity, custom packaging
+        or pricing, contact us directly.
+      </p>
 
     </div>
 
   </section>
 
 
-
   <!-- =====================================================
-       CONTACT DETAILS + ENQUIRY FORM
+       CONTACT FORM
   ====================================================== -->
 
-<section class="section beige">
+  <section class="section beige">
 
-  <div class="container">
+    <div class="container">
 
-    <div class="form-card">
+      <div class="form-card">
 
-      <!-- FORM HEADING -->
+        <!-- FORM HEADING -->
 
-      <div class="section-heading">
+        <div class="section-heading">
 
-        <h2
-          data-en="Send your enquiry"
-          data-mr="तुमची चौकशी पाठवा"
-        >
-          Send your enquiry
-        </h2>
-
-        <p
-          data-en="Share your details and we will confirm availability, packaging and final pricing."
-          data-mr="तुमची माहिती पाठवा. आम्ही उपलब्धता, पॅकेजिंग आणि अंतिम किंमत कळवू."
-        >
-          Share your details and we will confirm availability,
-          packaging and final pricing.
-        </p>
-
-      </div>
-
-
-      <!-- NAME -->
-
-      <label
-        for="customerName"
-        data-en="Your Name"
-        data-mr="तुमचे नाव"
-      >
-        Your Name
-      </label>
-
-      <input
-        id="customerName"
-        type="text"
-        required
-        placeholder="Enter your name"
-        data-en-placeholder="Enter your name"
-        data-mr-placeholder="तुमचे नाव टाका"
-      />
-
-
-      <!-- EMAIL -->
-
-      <label
-        for="customerEmail"
-        data-en="Email Address"
-        data-mr="ईमेल पत्ता"
-      >
-        Email Address
-      </label>
-
-      <input
-        id="customerEmail"
-        type="email"
-        placeholder="Enter your email address"
-        data-en-placeholder="Enter your email address"
-        data-mr-placeholder="तुमचा ईमेल पत्ता टाका"
-      />
-
-
-      <!-- WHATSAPP -->
-
-      <label
-        for="customerPhone"
-        data-en="WhatsApp Number"
-        data-mr="व्हॉट्सअॅप नंबर"
-      >
-        WhatsApp Number
-      </label>
-
-      <input
-        id="customerPhone"
-        type="tel"
-        required
-        placeholder="Enter your WhatsApp number"
-        data-en-placeholder="Enter your WhatsApp number"
-        data-mr-placeholder="तुमचा व्हॉट्सअॅप नंबर टाका"
-      />
-
-
-      <!-- QUANTITY -->
-
-      <label
-        for="quantity"
-        data-en="Total Quantity"
-        data-mr="एकूण संख्या"
-      >
-        Total Quantity
-      </label>
-
-      <input
-        id="quantity"
-        type="number"
-        min="1"
-        value="1"
-      />
-
-
-      <!-- DELIVERY DATE -->
-
-      <label
-        for="deliveryDate"
-        data-en="Delivery Date"
-        data-mr="डिलिव्हरी तारीख"
-      >
-        Delivery Date
-      </label>
-
-      <input
-        id="deliveryDate"
-        type="date"
-      />
-
-
-      <!-- SPECIAL REQUIREMENT -->
-
-      <label
-        for="specialMessage"
-        data-en="Special Requirement"
-        data-mr="विशेष आवश्यकता"
-      >
-        Special Requirement
-      </label>
-
-      <textarea
-        id="specialMessage"
-        required
-        placeholder="Name, logo, message, packaging requirement, etc."
-        data-en-placeholder="Name, logo, message, packaging requirement, etc."
-        data-mr-placeholder="नाव, लोगो, मेसेज, पॅकेजिंगची गरज इ."
-      ></textarea>
-
-
-      <!-- ACTION BUTTONS -->
-
-      <div class="action-buttons">
-
-        <!-- WHATSAPP -->
-
-        <button
-          type="button"
-          class="btn btn-primary"
-          onclick="sendWhatsAppEnquiry()"
-        >
-
-          📱
-
-          <span
-            data-en="Send on WhatsApp"
-            data-mr="व्हॉट्सअॅपवर पाठवा"
+          <h2
+            data-en="Send your enquiry"
+            data-mr="तुमची चौकशी पाठवा"
           >
-            Send on WhatsApp
-          </span>
+            Send your enquiry
+          </h2>
 
-        </button>
+          <p
+            data-en="Share your details and we will confirm availability, packaging and final pricing."
+            data-mr="तुमची माहिती पाठवा. आम्ही उपलब्धता, पॅकेजिंग आणि अंतिम किंमत कळवू."
+          >
+            Share your details and we will confirm availability,
+            packaging and final pricing.
+          </p>
+
+        </div>
+
+
+        <!-- NAME -->
+
+        <label
+          for="customerName"
+          data-en="Your Name"
+          data-mr="तुमचे नाव"
+        >
+          Your Name
+        </label>
+
+        <input
+          id="customerName"
+          type="text"
+          required
+          placeholder="Enter your name"
+          data-en-placeholder="Enter your name"
+          data-mr-placeholder="तुमचे नाव टाका"
+        />
 
 
         <!-- EMAIL -->
 
-        <button
-          type="button"
-          id="emailEnquiryButton"
-          class="btn btn-gold"
-          onclick="sendEmailEnquiry()"
+        <label
+          for="customerEmail"
+          data-en="Email Address"
+          data-mr="ईमेल पत्ता"
         >
+          Email Address
+        </label>
 
-          📧
+        <input
+          id="customerEmail"
+          type="email"
+          required
+          placeholder="Enter your email address"
+          data-en-placeholder="Enter your email address"
+          data-mr-placeholder="तुमचा ईमेल पत्ता टाका"
+        />
 
-          <span
-            data-en="Send Enquiry"
-            data-mr="चौकशी पाठवा"
+
+        <!-- WHATSAPP -->
+
+        <label
+          for="customerPhone"
+          data-en="WhatsApp Number"
+          data-mr="व्हॉट्सअॅप नंबर"
+        >
+          WhatsApp Number
+        </label>
+
+        <input
+          id="customerPhone"
+          type="tel"
+          required
+          placeholder="Enter your WhatsApp number"
+          data-en-placeholder="Enter your WhatsApp number"
+          data-mr-placeholder="तुमचा व्हॉट्सअॅप नंबर टाका"
+        />
+
+
+        <!-- OCCASION -->
+
+        <label
+          for="occasion"
+          data-en="Occasion"
+          data-mr="प्रसंग"
+        >
+          Occasion
+        </label>
+
+        <select id="occasion">
+
+          <option value="">
+            Select Occasion
+          </option>
+
+          <option value="Corporate Gift">
+            Corporate Gift
+          </option>
+
+          <option value="Birthday">
+            Birthday
+          </option>
+
+          <option value="Wedding">
+            Wedding
+          </option>
+
+          <option value="Baby Shower">
+            Baby Shower
+          </option>
+
+          <option value="Return Gift">
+            Return Gift
+          </option>
+
+          <option value="Diwali">
+            Diwali
+          </option>
+
+          <option value="Festival">
+            Festival
+          </option>
+
+          <option value="Other">
+            Other
+          </option>
+
+        </select>
+
+
+        <!-- BUDGET -->
+
+        <label
+          for="budget"
+          data-en="Budget Per Gift"
+          data-mr="प्रति गिफ्ट बजेट"
+        >
+          Budget Per Gift
+        </label>
+
+        <select id="budget">
+
+          <option value="">
+            Select Budget
+          </option>
+
+          <option value="Below ₹299">
+            Below ₹299
+          </option>
+
+          <option value="₹299 - ₹399">
+            ₹299 - ₹399
+          </option>
+
+          <option value="₹399 - ₹499">
+            ₹399 - ₹499
+          </option>
+
+          <option value="₹499 - ₹699">
+            ₹499 - ₹699
+          </option>
+
+          <option value="₹699 - ₹999">
+            ₹699 - ₹999
+          </option>
+
+          <option value="₹1000+">
+            ₹1000+
+          </option>
+
+        </select>
+
+
+        <!-- QUANTITY -->
+
+        <label
+          for="quantity"
+          data-en="Total Quantity"
+          data-mr="एकूण संख्या"
+        >
+          Total Quantity
+        </label>
+
+        <input
+          id="quantity"
+          type="number"
+          min="1"
+          value="1"
+        />
+
+
+        <!-- DELIVERY DATE -->
+
+        <label
+          for="deliveryDate"
+          data-en="Delivery Date"
+          data-mr="डिलिव्हरी तारीख"
+        >
+          Delivery Date
+        </label>
+
+        <input
+          id="deliveryDate"
+          type="date"
+        />
+
+
+        <!-- SPECIAL REQUIREMENT -->
+
+        <label
+          for="specialMessage"
+          data-en="Special Requirement"
+          data-mr="विशेष आवश्यकता"
+        >
+          Special Requirement
+        </label>
+
+        <textarea
+          id="specialMessage"
+          required
+          placeholder="Name, logo, message, packaging requirement, preferred gift, etc."
+          data-en-placeholder="Name, logo, message, packaging requirement, preferred gift, etc."
+          data-mr-placeholder="नाव, लोगो, मेसेज, पॅकेजिंगची गरज, पसंतीचे गिफ्ट इ."
+        ></textarea>
+
+
+        <!-- ACTION BUTTONS -->
+
+        <div class="action-buttons">
+
+          <!-- WHATSAPP -->
+
+          <button
+            type="button"
+            class="btn btn-primary"
+            onclick="sendWhatsAppEnquiry()"
           >
-            Send Enquiry
-          </span>
 
-        </button>
+            📱
+
+            <span
+              data-en="Send on WhatsApp"
+              data-mr="व्हॉट्सअॅपवर पाठवा"
+            >
+              Send on WhatsApp
+            </span>
+
+          </button>
+
+
+          <!-- EMAIL / SERVER ENQUIRY -->
+
+          <button
+            type="button"
+            id="emailEnquiryButton"
+            class="btn btn-gold"
+            onclick="sendContactEmailEnquiry()"
+          >
+
+            📧
+
+            <span
+              data-en="Send Enquiry"
+              data-mr="चौकशी पाठवा"
+            >
+              Send Enquiry
+            </span>
+
+          </button>
+
+        </div>
+
+
+        <!-- STATUS -->
+
+        <p
+          id="emailStatus"
+          class="status"
+          aria-live="polite"
+        ></p>
 
       </div>
 
-
-      <!-- EMAIL STATUS -->
-
-      <p
-        id="emailStatus"
-        class="status"
-        aria-live="polite"
-      ></p>
-
     </div>
 
-  </div>
+  </section>
 
-</section>
 
   <!-- COMMON FOOTER -->
 

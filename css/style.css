@@ -70,7 +70,146 @@ a {
     text-decoration: none;
     color: inherit;
 }
+/* =========================================================
+   CONTACT ENQUIRY SUCCESS POPUP
+   ========================================================= */
 
+#contactEnquirySuccess {
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+}
+
+
+.contact-success-overlay {
+    position: fixed;
+    inset: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 20px;
+
+    background: rgba(45, 30, 20, 0.65);
+
+    backdrop-filter: blur(4px);
+}
+
+
+.contact-success-box {
+    width: min(450px, 100%);
+
+    background: #fffaf2;
+
+    border-radius: 22px;
+
+    padding: 35px 28px;
+
+    text-align: center;
+
+    box-shadow:
+        0 25px 70px rgba(0, 0, 0, 0.30);
+
+    border: 1px solid #d4a574;
+
+    animation:
+        contactSuccessIn
+        0.3s ease;
+}
+
+
+.contact-success-icon {
+    width: 68px;
+    height: 68px;
+
+    margin: 0 auto 18px;
+
+    border-radius: 50%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #8b5e3c;
+
+    color: #ffffff;
+
+    font-size: 36px;
+    font-weight: 700;
+}
+
+
+.contact-success-box h2 {
+    margin: 0 0 14px;
+
+    color: #5b3926;
+
+    font-size: 25px;
+}
+
+
+.contact-success-box p {
+    margin: 8px 0;
+
+    color: #6f5a4b;
+
+    line-height: 1.6;
+}
+
+
+.contact-success-box button {
+    margin-top: 20px;
+
+    padding: 11px 30px;
+
+    border: none;
+
+    border-radius: 10px;
+
+    background: #8b5e3c;
+
+    color: #ffffff;
+
+    font-size: 15px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+}
+
+
+.contact-success-box button:hover {
+    opacity: 0.9;
+}
+
+
+@keyframes contactSuccessIn {
+
+    from {
+        opacity: 0;
+        transform: translateY(15px) scale(0.96);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+
+}
+
+
+@media (max-width: 600px) {
+
+    .contact-success-box {
+        padding: 28px 20px;
+    }
+
+    .contact-success-box h2 {
+        font-size: 21px;
+    }
+
+}
 
 /* =========================================================
    COMMON
@@ -891,31 +1030,7 @@ header {
 }
 
 
-/* Small "Gift" indicator */
 
-.budget-card::after {
-    content: "GIFT";
-
-    display: block;
-
-    margin: 11px auto 0;
-
-    width: fit-content;
-
-    padding: 3px 8px;
-
-    border-radius: 20px;
-
-    background: rgba(142, 73, 55, 0.07);
-
-    color: var(--clay);
-
-    font-size: 8px;
-
-    font-weight: 700;
-
-    letter-spacing: 1px;
-}
 
 
 /* =========================================
