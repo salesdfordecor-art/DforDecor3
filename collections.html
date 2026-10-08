@@ -12,69 +12,8 @@
   <body>
     <!-- ================= HEADER ================= -->
 
-    <header>
-      <nav class="navbar">
-        <a href="index.html" class="logo">
-          <span class="brand-mark">D<span>Decor</span></span>
-        </a>
-
-        <button class="menu-btn" onclick="toggleMenu()">☰</button>
-
-        <ul class="nav-links" id="navLinks">
-          <li>
-            <a href="index.html" data-en="Home" data-mr="मुख्यपृष्ठ"> Home </a>
-          </li>
-
-          <li>
-            <a
-              href="collections.html"
-              data-en="Collections"
-              data-mr="गिफ्ट कलेक्शन"
-            >
-              Collections
-            </a>
-          </li>
-
-          <li>
-            <a
-              href="occasions.html"
-              data-en="Occasions"
-              data-mr="प्रसंगानुसार गिफ्ट्स"
-            >
-              Occasions
-            </a>
-          </li>
-
-          <li>
-            <a
-              href="customize.html"
-              data-en="Customize"
-              data-mr="तुमचा गिफ्ट तयार करा"
-            >
-              Customize
-            </a>
-          </li>
-
-          <li>
-            <a href="about.html" data-en="About" data-mr="आमच्याबद्दल">
-              About
-            </a>
-          </li>
-
-          <li>
-            <a href="contact.html" data-en="Contact" data-mr="संपर्क">
-              Contact
-            </a>
-          </li>
-
-          <li class="lang-switch">
-            <button data-lang="en" onclick="setLanguage('en')">EN</button>
-
-            <button data-lang="mr" onclick="setLanguage('mr')">मराठी</button>
-          </li>
-        </ul>
-      </nav>
-    </header>
+   <!-- COMMON HEADER -->
+<div id="site-header"></div>
 
     <!-- ================= PAGE HERO ================= -->
 
@@ -132,397 +71,177 @@
 
         <!-- ================= PRODUCT GRID ================= -->
 
-        <div class="product-grid">
-          <!-- 1 READY HAMPERS -->
+      <div class="product-grid">
 
-          <div class="product-card">
-            <img
-              src="images/ready-gift-hampers.jpg"
-              alt="Ready-to-Gift Hampers"
-            />
-
-            <div class="product-info">
-              <h3
-                data-en="Ready-to-Gift Hampers"
-                data-mr="रेडी-टू-गिफ्ट हॅम्पर्स"
-              >
-                Ready-to-Gift Hampers
-              </h3>
-
-              <p
-                data-en="Beautifully curated hampers ready for your loved ones, clients, colleagues and special occasions."
-                data-mr="प्रिय व्यक्ती, क्लायंट, सहकारी आणि खास प्रसंगांसाठी सुंदरपणे तयार केलेले हॅम्पर्स."
-              >
-                Beautifully curated hampers ready for your loved ones, clients,
-                colleagues and special occasions.
-              </p>
-
-              <strong>Starting ₹199</strong>
-
-              <a
-                href="https://drive.google.com/drive/folders/12-UdwoOK9cDDNjd3MwJR3rdwgOClAWHW?usp=drive_link"
-                class="btn btn-primary card-btn"
-                data-en="View Gifts"
-                data-mr="गिफ्ट्स पहा"
-              >
+    <!-- 1. ₹99 -->
+    <div class="product-card price-product-card">
+        <img src="images/return-gifts.jpg" alt="Gifts Starting ₹99">
+        <div class="product-info">
+            <strong>Starting ₹99</strong>
+            <a href="customize.html?price=99"
+               class="btn btn-primary card-btn"
+               data-en="View Gifts"
+               data-mr="गिफ्ट्स पहा">
                 View Gifts
-              </a>
-            </div>
-          </div>
-
-          <!-- 2 DRY FRUIT -->
-
-          <div class="product-card">
-            <img src="images/dry-fruit-gifts.jpg" alt="Dry Fruit " />
-
-            <div class="product-info">
-              <h3 data-en="Dry Fruit Gifts" data-mr="ड्राय फ्रूट गिफ्ट्स">
-                Dry Fruit Boxes
-              </h3>
-
-              <p
-                data-en="Premium almonds, cashews, pista, anjeer, raisins and more, beautifully packed for gifting."
-                data-mr="बदाम, काजू, पिस्ता, अंजीर, मनुका आणि इतर ड्राय फ्रूट्सचे सुंदर गिफ्ट पॅक."
-              >
-                Premium almonds, cashews, pista, anjeer, raisins and more,
-                beautifully packed for gifting.
-              </p>
-
-              <strong>Starting ₹299</strong>
-
-              <a
-                href="https://drive.google.com/drive/folders/1wVnPSG0GjfGXuIkRIRlsC7kFHVxUSyk0?usp=sharing"
-                class="btn btn-primary card-btn"
-                data-en="View Gifts"
-                data-mr="गिफ्ट्स पहा"
-              >
-                View Gifts
-              </a>
-            </div>
-          </div>
-
-          <!-- 3 CHOCOLATE -->
-
-          <div class="product-card">
-            <img
-              src="images/chocolate-gifts.jpg"
-              alt="Chocolate and Sweet Gifts"
-            />
-
-            <div class="product-info">
-              <h3
-                data-en="Chocolate & Sweets"
-                data-mr="चॉकलेट आणि स्वीट गिफ्ट्स"
-              >
-                Chocolate & Sweet Gifts
-              </h3>
-
-              <p
-                data-en="Delicious chocolates, sweets and treats beautifully arranged for gifting."
-                data-mr="चॉकलेट्स, मिठाई आणि स्वादिष्ट ट्रीट्सचे आकर्षक गिफ्ट पॅक."
-              >
-                Delicious chocolates, sweets and treats beautifully arranged for
-                gifting.
-              </p>
-
-              <strong>Starting ₹299</strong>
-
-              <a
-                href="https://drive.google.com/drive/folders/12-UdwoOK9cDDNjd3MwJR3rdwgOClAWHW?usp=sharing"
-                class="btn btn-primary card-btn"
-                data-en="View Gifts"
-                data-mr="गिफ्ट्स पहा"
-              >
-                View Gifts
-              </a>
-            </div>
-          </div>
-
-          <!-- 4 COOKIES -->
-
-          <div class="product-card">
-            <img src="images/cookie-gifts.jpg" alt="Cookies and Treats" />
-
-            <div class="product-info">
-              <h3 data-en="Cookies & Treats" data-mr="कुकीज आणि ट्रीट्स">
-                Cookies & Treats
-              </h3>
-
-              <p
-                data-en="Fresh cookies and delicious treats packed beautifully for every occasion."
-                data-mr="प्रत्येक प्रसंगासाठी सुंदर पॅक केलेल्या स्वादिष्ट कुकीज आणि ट्रीट्स."
-              >
-                Fresh cookies and delicious treats packed beautifully for every
-                occasion.
-              </p>
-
-              <strong>Starting ₹299</strong>
-
-              <a
-                href="https://drive.google.com/drive/folders/1yM4ve8BxXDyqi1tAzRN8_rqaouYQxXst?usp=sharing"
-                class="btn btn-primary card-btn"
-                data-en="View Gifts"
-                data-mr="गिफ्ट्स पहा"
-              >
-                View Gifts
-              </a>
-            </div>
-          </div>
-
-          <!-- 5 FESTIVE -->
-
-          <div class="product-card">
-            <img src="images/festive-gifts.jpg" alt="Festive Gifts" />
-
-            <div class="product-info">
-              <h3 data-en="Festive Gifts" data-mr="सणासुदीचे गिफ्ट्स">
-                Festive Gifts
-              </h3>
-
-              <p
-                data-en="Beautiful gifting options for Diwali, Ganpati, Christmas, New Year and other celebrations."
-                data-mr="दिवाळी, गणपती, ख्रिसमस, न्यू इयर आणि इतर सणांसाठी सुंदर गिफ्टिंग पर्याय."
-              >
-                Beautiful gifting options for Diwali, Ganpati, Christmas, New
-                Year and other celebrations.
-              </p>
-
-              <strong>Starting ₹299</strong>
-
-              <a
-                href="https://drive.google.com/drive/folders/1AMh_DQwT-A7nL8aoE58_Tu04kxg6HjFc?usp=sharing"
-                class="btn btn-primary card-btn"
-                data-en="View Gifts"
-                data-mr="गिफ्ट्स पहा"
-              >
-                View Gifts
-              </a>
-            </div>
-          </div>
-
-          <!-- 6 RETURN GIFTS -->
-
-          <div class="product-card">
-            <img src="images/return-gifts.jpg" alt="Return Gifts" />
-
-            <div class="product-info">
-              <h3 data-en="Return Gifts" data-mr="रिटर्न गिफ्ट्स">
-                Return Gifts
-              </h3>
-
-              <p
-                data-en="Thoughtful return gifts for birthdays, baby showers, weddings, haldi-kumkum and celebrations."
-                data-mr="वाढदिवस, डोहाळे जेवण, लग्न, हळदी-कुंकू आणि इतर समारंभांसाठी खास रिटर्न गिफ्ट्स."
-              >
-                Thoughtful return gifts for birthdays, baby showers, weddings,
-                haldi-kumkum and celebrations.
-              </p>
-
-              <strong>Starting ₹99</strong>
-
-              <a
-                href="https://drive.google.com/drive/folders/1ZxVgpnb9wOryou-HaXqJWyk6uJ8yQB2S?usp=sharing"
-                class="btn btn-primary card-btn"
-                data-en="View Gifts"
-                data-mr="गिफ्ट्स पहा"
-              >
-                View Gifts
-              </a>
-            </div>
-          </div>
-
-          <!-- 7 BIRTHDAY -->
-
-          <div class="product-card">
-            <img src="images/birthday-gifts.jpg" alt="Birthday Gifts" />
-
-            <div class="product-info">
-              <h3 data-en="Birthday Gifts" data-mr="वाढदिवसाचे गिफ्ट्स">
-                Birthday Gifts
-              </h3>
-
-              <p
-                data-en="Fun, elegant and personalized birthday gifting options for kids and adults."
-                data-mr="मुले आणि मोठ्यांसाठी आकर्षक, मजेदार आणि पर्सनलाइज्ड वाढदिवसाचे गिफ्ट्स."
-              >
-                Fun, elegant and personalized birthday gifting options for kids
-                and adults.
-              </p>
-
-              <strong>Starting ₹299</strong>
-
-              <a
-                href="https://drive.google.com/drive/folders/1LqgjG7eyRDO5yiASK1YiJiiLb2jEbzDS?usp=sharing"
-                class="btn btn-primary card-btn"
-                data-en="View Gifts"
-                data-mr="गिफ्ट्स पहा"
-              >
-                View Gifts
-              </a>
-            </div>
-          </div>
-
-          <!-- 8 BABY SHOWER -->
-
-          <div class="product-card">
-            <img src="images/baby-shower-gifts.jpg" alt="Baby Shower Gifts" />
-
-            <div class="product-info">
-              <h3 data-en="Baby Shower Gifts" data-mr="डोहाळे जेवण गिफ्ट्स">
-                Baby Shower Gifts
-              </h3>
-
-              <p
-                data-en="Cute and memorable gifts for baby showers, naming ceremonies and new beginnings."
-                data-mr="डोहाळे जेवण, बारसे आणि नवीन सुरुवातीसाठी सुंदर आणि आठवणीत राहतील असे गिफ्ट्स."
-              >
-                Cute and memorable gifts for baby showers, naming ceremonies and
-                new beginnings.
-              </p>
-
-              <strong>Starting ₹299</strong>
-
-              <a
-                href="https://drive.google.com/drive/folders/1wpaBiXCoKyCsBMMl0MM7uagpCvBOHZKe?usp=sharing"
-                class="btn btn-primary card-btn"
-                data-en="View Gifts"
-                data-mr="गिफ्ट्स पहा"
-              >
-                View Gifts
-              </a>
-            </div>
-          </div>
-
-          <!-- 9 WEDDING -->
-
-          <div class="product-card">
-            <img
-              src="images/wedding-gifts.jpg"
-              alt="Wedding and Anniversary Gifts"
-            />
-
-            <div class="product-info">
-              <h3
-                data-en="Wedding & Anniversary Gifts"
-                data-mr="लग्न आणि ॲनिव्हर्सरी गिफ्ट्स"
-              >
-                Wedding & Anniversary Gifts
-              </h3>
-
-              <p
-                data-en="Elegant gifts for weddings, anniversaries, engagements and special milestones."
-                data-mr="लग्न, ॲनिव्हर्सरी, साखरपुडा आणि खास आयुष्यातील टप्प्यांसाठी आकर्षक गिफ्ट्स."
-              >
-                Elegant gifts for weddings, anniversaries, engagements and
-                special milestones.
-              </p>
-
-              <strong>Starting ₹499</strong>
-
-              <a
-                href="https://drive.google.com/drive/folders/1sB2ivzsHaOQLm5-cJqHSigiYSgreOni-?usp=sharing"
-                class="btn btn-primary card-btn"
-                data-en="View Gifts"
-                data-mr="गिफ्ट्स पहा"
-              >
-                View Gifts
-              </a>
-            </div>
-          </div>
-
-          <!-- 10 CORPORATE -->
-
-          <div class="product-card">
-            <img src="images/corporate-gifts.jpg" alt="Corporate Gifts" />
-
-            <div class="product-info">
-              <h3 data-en="Corporate Gifts" data-mr="कॉर्पोरेट गिफ्ट्स">
-                Corporate Gifts
-              </h3>
-
-              <p
-                data-en="Professional gifting solutions for employees, clients, business partners and events."
-                data-mr="कर्मचारी, क्लायंट, बिझनेस पार्टनर्स आणि कंपनी इव्हेंट्ससाठी प्रोफेशनल गिफ्टिंग सोल्यूशन्स."
-              >
-                Professional gifting solutions for employees, clients, business
-                partners and events.
-              </p>
-
-              <strong>Bulk Pricing</strong>
-
-              <a
-                href="https://drive.google.com/drive/folders/1dOHjyOpvMgrt9Q0mqihRlASkKPlmp6rH?usp=sharing"
-                class="btn btn-primary card-btn"
-                data-en="Enquire Now"
-                data-mr="चौकशी करा"
-              >
-                Enquire Now
-              </a>
-            </div>
-          </div>
-
-          <!-- 11 PERSONALIZED -->
-
-          <div class="product-card">
-            <img src="images/personalized-gifts.jpg" alt="Personalized Gifts" />
-
-            <div class="product-info">
-              <h3 data-en="Personalized Gifts" data-mr="पर्सनलाइज्ड गिफ्ट्स">
-                Personalized Gifts
-              </h3>
-
-              <p
-                data-en="Add names, messages, company logos, greeting cards and custom packaging."
-                data-mr="नावे, मेसेज, कंपनी लोगो, ग्रीटिंग कार्ड आणि कस्टम पॅकेजिंगसह खास गिफ्ट्स."
-              >
-                Add names, messages, company logos, greeting cards and custom
-                packaging.
-              </p>
-
-              <strong>Custom Pricing</strong>
-
-              <a
-                href="https://drive.google.com/drive/folders/1lheFXuPKqUHnw4z_w5Gm6vLOea4bYhsm?usp=sharing"
-                class="btn btn-primary card-btn"
-                data-en="Customize Your Gift"
-                data-mr="तुमचे गिफ्ट कस्टमाइज करा"
-              >
-                Customize Your Gift
-              </a>
-            </div>
-          </div>
-
-          <!-- 12 BULK -->
-
-          <div class="product-card">
-            <img src="images/bulk-gifting.jpg" alt="Bulk Gifting" />
-
-            <div class="product-info">
-              <h3 data-en="Bulk Gifting" data-mr="बल्क गिफ्टिंग">
-                Bulk Gifting
-              </h3>
-
-              <p
-                data-en="Large quantity gifting for companies, schools, events, weddings and celebrations."
-                data-mr="कंपन्या, शाळा, इव्हेंट्स, लग्नसमारंभ आणि मोठ्या कार्यक्रमांसाठी मोठ्या प्रमाणात गिफ्टिंग."
-              >
-                Large quantity gifting for companies, schools, events, weddings
-                and celebrations.
-              </p>
-
-              <strong>Special Bulk Rates</strong>
-
-              <a
-                href="https://drive.google.com/drive/folders/1AVkgEvnKS7kFRGponub7cb6LmPqnW3m1?usp=sharing"
-                class="btn btn-primary card-btn"
-                data-en="Enquire Now"
-                data-mr="चौकशी करा"
-              >
-                Enquire Now
-              </a>
-            </div>
-          </div>
+            </a>
         </div>
+    </div>
+
+    <!-- 2. ₹199 -->
+    <div class="product-card price-product-card">
+        <img src="images/gift1.png" alt="Gifts Starting ₹199">
+        <div class="product-info">
+            <strong>Starting ₹199</strong>
+            <a href="customize.html?price=199"
+               class="btn btn-primary card-btn"
+               data-en="View Gifts"
+               data-mr="गिफ्ट्स पहा">
+                View Gifts
+            </a>
+        </div>
+    </div>
+
+    <!-- 3. ₹299 -->
+    <div class="product-card price-product-card">
+        <img src="images/gift3.png" alt="Gifts Starting ₹299">
+        <div class="product-info">
+            <strong>Starting ₹299</strong>
+            <a href="customize.html?price=299"
+               class="btn btn-primary card-btn"
+               data-en="View Gifts"
+               data-mr="गिफ्ट्स पहा">
+                View Gifts
+            </a>
+        </div>
+    </div>
+
+    <!-- 4. ₹399 -->
+    <div class="product-card price-product-card">
+        <img src="images/chocolate-gifts.jpg" alt="Gifts Starting ₹399">
+        <div class="product-info">
+            <strong>Starting ₹399</strong>
+            <a href="customize.html?price=399"
+               class="btn btn-primary card-btn"
+               data-en="View Gifts"
+               data-mr="गिफ्ट्स पहा">
+                View Gifts
+            </a>
+        </div>
+    </div>
+
+    <!-- 5. ₹499 -->
+    <div class="product-card price-product-card">
+        <img src="images/wedding-gifts.jpg" alt="Gifts Starting ₹499">
+        <div class="product-info">
+            <strong>Starting ₹499</strong>
+            <a href="customize.html?price=499"
+               class="btn btn-primary card-btn"
+               data-en="View Gifts"
+               data-mr="गिफ्ट्स पहा">
+                View Gifts
+            </a>
+        </div>
+    </div>
+
+    <!-- 6. ₹599 -->
+    <div class="product-card price-product-card">
+        <img src="images/festive-gifts.jpg" alt="Gifts Starting ₹599">
+        <div class="product-info">
+            <strong>Starting ₹599</strong>
+            <a href="customize.html?price=599"
+               class="btn btn-primary card-btn"
+               data-en="View Gifts"
+               data-mr="गिफ्ट्स पहा">
+                View Gifts
+            </a>
+        </div>
+    </div>
+
+    <!-- 7. ₹799 -->
+    <div class="product-card price-product-card">
+        <img src="images/birthday-gifts.jpg" alt="Gifts Starting ₹799">
+        <div class="product-info">
+            <strong>Starting ₹799</strong>
+            <a href="customize.html?price=799"
+               class="btn btn-primary card-btn"
+               data-en="View Gifts"
+               data-mr="गिफ्ट्स पहा">
+                View Gifts
+            </a>
+        </div>
+    </div>
+
+    <!-- 8. ₹999 -->
+    <div class="product-card price-product-card">
+        <img src="images/corporate-gifts.jpg" alt="Gifts Starting ₹999">
+        <div class="product-info">
+            <strong>Starting ₹999</strong>
+            <a href="customize.html?price=999"
+               class="btn btn-primary card-btn"
+               data-en="View Gifts"
+               data-mr="गिफ्ट्स पहा">
+                View Gifts
+            </a>
+        </div>
+    </div>
+
+    <!-- 9. ₹1299 -->
+    <div class="product-card price-product-card">
+        <img src="images/personalized-gifts.jpg" alt="Gifts Starting ₹1299">
+        <div class="product-info">
+            <strong>Starting ₹1299</strong>
+            <a href="customize.html?price=1299"
+               class="btn btn-primary card-btn"
+               data-en="View Gifts"
+               data-mr="गिफ्ट्स पहा">
+                View Gifts
+            </a>
+        </div>
+    </div>
+
+    <!-- 10. ₹1599+ -->
+    <div class="product-card price-product-card">
+        <img src="images/bulk-gifting.jpg" alt="Gifts Starting ₹1599+">
+        <div class="product-info">
+            <strong>Starting ₹1599+</strong>
+            <a href="customize.html?price=1599"
+               class="btn btn-primary card-btn"
+               data-en="View Gifts"
+               data-mr="गिफ्ट्स पहा">
+                View Gifts
+            </a>
+        </div>
+    </div>
+
+    <!-- 11. ₹2000+ -->
+    <div class="product-card price-product-card">
+        <img src="images/premium-gifts.jpg" alt="Gifts Starting ₹2000+">
+        <div class="product-info">
+            <strong>Starting ₹2000+</strong>
+            <a href="customize.html?price=2000"
+               class="btn btn-primary card-btn"
+               data-en="View Gifts"
+               data-mr="गिफ्ट्स पहा">
+                View Gifts
+            </a>
+        </div>
+    </div>
+
+    <!-- 12. Personalized Gifts -->
+    <div class="product-card price-product-card">
+        <img src="images/personalized-gifts.jpg" alt="Personalized Gifts">
+        <div class="product-info">
+            <strong>Personalized Gifts</strong>
+            <a href="customize.html?occasion=personalized"
+               class="btn btn-primary card-btn"
+               data-en="View Gifts"
+               data-mr="गिफ्ट्स पहा">
+                View Gifts
+            </a>
+        </div>
+    </div>
+
+</div>
 
         <!-- ================= CUSTOM CTA ================= -->
 
@@ -564,76 +283,8 @@
 
     <!-- ================= FOOTER ================= -->
 
-    <footer>
-      <div class="container footer-grid">
-        <div>
-          <h3>DDecor</h3>
-
-          <p
-            data-en="Thoughtful gifts for every occasion."
-            data-mr="प्रत्येक प्रसंगासाठी मनापासून निवडलेली गिफ्ट्स."
-          >
-            Thoughtful gifts for every occasion.
-          </p>
-        </div>
-
-        <div>
-          <h4 data-en="Quick Links" data-mr="महत्त्वाच्या लिंक">Quick Links</h4>
-
-          <a
-            href="collections.html"
-            data-en="Collections"
-            data-mr="गिफ्ट कलेक्शन"
-          >
-            Collections
-          </a>
-
-          <a
-            href="Occasions.html"
-            data-en="Occasions"
-            data-mr="प्रसंगानुसार गिफ्ट्स"
-          >
-            Occasions
-          </a>
-
-          <a href="customize.html" data-en="Customize" data-mr="कस्टम गिफ्ट">
-            Customize
-          </a>
-        </div>
-
-        <div>
-          <h4 data-en="Contact" data-mr="संपर्क">Contact</h4>
-
-          <p>Pune, Maharashtra</p>
-
-          <p>
-            <a href="tel:+919890021266"> +91 98900 21266 </a>
-          </p>
-
-          <p>
-            <a href="mailto:DDecor@gmail.com">
-              DDecor@gmail.com
-            </a>
-          </p>
-        </div>
-      </div>
-
-      <div class="social-links">
-        <a href="https://www.instagram.com/" target="_blank" rel="noopener">
-          Instagram
-        </a>
-
-        <a href="https://www.facebook.com/" target="_blank" rel="noopener">
-          Facebook
-        </a>
-
-        <a href="mailto:DDecor@gmail.com"> Email </a>
-      </div>
-
-      <div class="footer-bottom">
-        © 2026 DDecor All Rights Reserved.
-      </div>
-    </footer>
+   <!-- COMMON FOOTER -->
+<div id="site-footer"></div>
 
     <!-- ================= WHATSAPP ================= -->
 
