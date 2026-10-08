@@ -1,483 +1,244 @@
 /* =========================================================
-   DFORDECOR - MAIN JAVASCRIPT
-
-   Common Header + Footer
-   Mobile Menu
-   Language Switching
-   Gift Builder
-   Cart
-   WhatsApp / Email Enquiry
-   Google Apps Script Enquiry
-   Hero Image Slideshow
-========================================================= */
-
-
-/* =========================================================
-   CONFIGURATION
+   DFORDECOR - CUSTOMIZE / GIFT BUILDER SCRIPT
 ========================================================= */
 
 const GOOGLE_APPS_SCRIPT_URL =
-    "https://script.google.com/macros/s/AKfycbxRk0r7cpHa_MuHdlabwcw6IR9W89aMk_Ifx--wyXn8I-9WQcSHJQ1w5F1eBjIZA6sA/exec";
+  "https://script.google.com/macros/s/AKfycbx7kD1pflT5SnGbQAfhc_g_TTl0CBWVcwpuTorEwRNOqL0TRyUJbwUWKlPck_ZSAuN1/exec";
 
-const WA_NUMBER = "919890021266";
-
+const WA_NUMBER = "+91 7447771550";
 const EMAIL_TO = "salesdfordecor@gmail.com";
-
+const BUSINESS_NAME = "DforDecor";
+const UPI_ID = "manishapharande1922-1@okaxis";
 
 let selectedBudget = 0;
-
 let cart = {};
+let currentOrder = null;
 
 
 /* =========================================================
-   COMMON COMPONENT LOADER
-========================================================= */
-
-async function loadComponent(elementId, filePath) {
-
-    const element =
-        document.getElementById(elementId);
-
-    if (!element) {
-        return;
-    }
-
-    try {
-
-        const response =
-            await fetch(filePath);
-
-        if (!response.ok) {
-
-            throw new Error(
-                `Failed to load ${filePath}`
-            );
-
-        }
-
-        element.innerHTML =
-            await response.text();
-
-    } catch (error) {
-
-        console.error(
-            `Component loading error: ${filePath}`,
-            error
-        );
-
-    }
-}
-
-
-async function loadCommonComponents() {
-
-    await Promise.all([
-
-        loadComponent(
-            "site-header",
-            "components/header.html"
-        ),
-
-        loadComponent(
-            "site-footer",
-            "components/footer.html"
-        )
-
-    ]);
-
-}
-
-
-/* =========================================================
-   MOBILE MENU
+   BASIC HELPERS
 ========================================================= */
 
 function toggleMenu() {
-
-    const nav =
-        document.getElementById("navLinks");
-
-    const button =
-        document.querySelector(".menu-btn");
-
-    if (!nav) {
-        return;
-    }
-
-    nav.classList.toggle("active");
-
-    if (button) {
-
-        const isOpen =
-            nav.classList.contains("active");
-
-        button.setAttribute(
-            "aria-expanded",
-            isOpen ? "true" : "false"
-        );
-
-        button.setAttribute(
-            "aria-label",
-            isOpen
-                ? "Close menu"
-                : "Open menu"
-        );
-
-        button.innerHTML =
-            isOpen ? "✕" : "☰";
-    }
-
+  document.getElementById("navLinks")?.classList.toggle("active");
 }
 
-
-function closeMenu() {
-
-    const nav =
-        document.getElementById("navLinks");
-
-    const button =
-        document.querySelector(".menu-btn");
-
-    if (!nav) {
-        return;
-    }
-
-    nav.classList.remove("active");
-
-    if (button) {
-
-        button.setAttribute(
-            "aria-expanded",
-            "false"
-        );
-
-        button.setAttribute(
-            "aria-label",
-            "Open menu"
-        );
-
-        button.innerHTML = "☰";
-    }
-
-}
-
-
-/* =========================================================
-   LANGUAGE SWITCHING
-========================================================= */
 
 function setLanguage(lang) {
 
-    if (!lang) {
-        lang = "en";
-    }
+  document.documentElement.lang = lang;
 
-    document.documentElement.lang =
-        lang;
+  document
+    .querySelectorAll("[data-en][data-mr]")
+    .forEach((el) => {
+      el.textContent =
+        el.getAttribute("data-" + lang);
+    });
 
-    document
-        .querySelectorAll(
-            "[data-en][data-mr]"
-        )
-        .forEach(element => {
+  document
+    .querySelectorAll(".lang-switch button")
+    .forEach((button) => {
+      button.classList.toggle(
+        "active",
+        button.dataset.lang === lang
+      );
+    });
 
-            const text =
-                element.getAttribute(
-                    `data-${lang}`
-                );
-
-            if (text !== null) {
-
-                element.textContent =
-                    text;
-            }
-
-        });
-
-    document
-        .querySelectorAll(
-            ".lang-switch button"
-        )
-        .forEach(button => {
-
-            button.classList.toggle(
-                "active",
-                button.dataset.lang === lang
-            );
-
-        });
-
-    try {
-
-        localStorage.setItem(
-            "ddecor-language",
-            lang
-        );
-
-    } catch (error) {
-
-        console.warn(
-            "Unable to save language preference.",
-            error
-        );
-
-    }
-
+  localStorage.setItem(
+    "ddecor-language",
+    lang
+  );
 }
 
 
-function loadSavedLanguage() {
+function formatCurrency(value) {
 
-    let language = "en";
+  const amount =
+    Number(value || 0);
 
-    try {
+  return (
+    "₹" +
+    amount.toLocaleString("en-IN")
+  );
+}
 
-        language =
-            localStorage.getItem(
-                "ddecor-language"
-            ) || "en";
 
-    } catch (error) {
+function isValidEmail(email) {
 
-        language = "en";
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(
+    String(email || "").trim()
+  );
+}
 
-    }
 
-    setLanguage(language);
+function escapeHtml(value) {
 
+  return String(value ?? "").replace(
+    /[&<>'"]/g,
+    (character) => ({
+      "&": "&amp;",
+      "<": "&lt;",
+      ">": "&gt;",
+      "'": "&#39;",
+      '"': "&quot;"
+    }[character])
+  );
+}
+
+
+function escapeAttr(value) {
+
+  return String(value ?? "")
+    .replace(/'/g, "\\'");
 }
 
 
 /* =========================================================
-   BUDGET SELECTION
+   BUDGET
 ========================================================= */
 
-function selectBudget(
-    amount,
-    element
-) {
+function selectBudget(amount, el) {
 
-    selectedBudget =
-        Number(amount) || 0;
+  selectedBudget =
+    Number(amount || 0);
 
-    /*
-     * Clear cart when budget changes.
-     */
+  cart = {};
 
-    cart = {};
+  document
+    .querySelectorAll(".budget-card")
+    .forEach((card) => {
+      card.classList.remove("active");
+    });
 
-    /*
-     * Remove active state.
-     */
+  el?.classList.add("active");
 
-    document
-        .querySelectorAll(".budget-card")
-        .forEach(card => {
-
-            card.classList.remove(
-                "active"
-            );
-
-        });
-
-    /*
-     * Activate selected budget.
-     */
-
-    if (element) {
-
-        element.classList.add(
-            "active"
-        );
-
-    }
-
-    /*
-     * Display budget.
-     */
-
-    const display =
-        document.getElementById(
-            "displayBudget"
-        );
-
-    if (display) {
-
-        display.textContent =
-            selectedBudget;
-
-    }
-
-    /*
-     * Show product section.
-     */
-
-    const section =
-        document.getElementById(
-            "productSection"
-        );
-
-    if (section) {
-
-        section.style.display =
-            "block";
-
-    }
-
-    /*
-     * Show products available
-     * for selected budget.
-     */
-
-    document
-        .querySelectorAll(".gift-product")
-        .forEach(product => {
-
-            product.classList.remove(
-                "selected"
-            );
-
-            const minimum =
-                Number(
-                    product.dataset.min || 0
-                );
-
-            if (
-                minimum <=
-                selectedBudget
-            ) {
-
-                product.style.display =
-                    "";
-
-            } else {
-
-                product.style.display =
-                    "none";
-
-            }
-
-        });
-
-    renderCart();
-
-    updateGiftSummary();
-
-    /*
-     * Scroll to products.
-     */
-
-    setTimeout(() => {
-
-        if (section) {
-
-            section.scrollIntoView({
-                behavior: "smooth",
-                block: "start"
-            });
-
-        }
-
-    }, 100);
-
-}
-
-
-/* =========================================================
-   PRODUCT SELECTION
-========================================================= */
-
-function toggleProduct(element) {
-
-    if (!selectedBudget) {
-
-        alert(
-            "Please select a budget first."
-        );
-
-        return;
-    }
-
-    if (!element) {
-        return;
-    }
-
-    const name =
-        element.dataset.name || "";
-
-    const price =
-        Number(
-            element.dataset.price || 0
-        );
-
-    if (!name) {
-        return;
-    }
-
-    /*
-     * Add / remove product.
-     */
-
-    if (cart[name]) {
-
-        delete cart[name];
-
-    } else {
-
-        cart[name] = {
-
-            name: name,
-
-            price: price,
-
-            qty: 1
-
-        };
-
-    }
-
-    /*
-     * Visual selected state.
-     */
-
-    element.classList.toggle(
-        "selected",
-        !!cart[name]
+  const display =
+    document.getElementById(
+      "displayBudget"
     );
 
-    renderCart();
+  if (display) {
 
-    updateGiftSummary();
+    display.textContent =
+      selectedBudget.toLocaleString(
+        "en-IN"
+      );
+  }
 
+  const section =
+    document.getElementById(
+      "productSection"
+    );
+
+  if (section) {
+
+    section.style.display =
+      "block";
+  }
+
+  document
+    .querySelectorAll(".gift-product")
+    .forEach((product) => {
+
+      product.classList.remove(
+        "selected"
+      );
+
+      const minimum =
+        Number(
+          product.dataset.min || 0
+        );
+
+      product.style.display =
+        minimum <= selectedBudget
+          ? "block"
+          : "none";
+    });
+
+  renderCart();
+
+  updateGiftSummary();
+
+  setTimeout(() => {
+
+    section?.scrollIntoView({
+      behavior: "smooth",
+      block: "start"
+    });
+
+  }, 80);
 }
 
 
 /* =========================================================
-   CHANGE PRODUCT QUANTITY
+   PRODUCTS
 ========================================================= */
 
-function changeQty(
-    name,
-    delta
-) {
+function toggleProduct(el) {
 
-    if (!cart[name]) {
-        return;
-    }
+  if (!selectedBudget) {
 
-    const change =
-        Number(delta) || 0;
+    alert(
+      "Please select a budget first."
+    );
 
-    cart[name].qty =
-        Math.max(
-            1,
-            cart[name].qty + change
-        );
+    return;
+  }
 
-    renderCart();
+  const name =
+    el.dataset.name;
 
-    updateGiftSummary();
+  const price =
+    Number(
+      el.dataset.price || 0
+    );
 
+  if (cart[name]) {
+
+    delete cart[name];
+
+  } else {
+
+    cart[name] = {
+      name: name,
+      price: price,
+      qty: 1
+    };
+  }
+
+  el.classList.toggle(
+    "selected",
+    !!cart[name]
+  );
+
+  renderCart();
+
+  updateGiftSummary();
+}
+
+
+/* =========================================================
+   QUANTITY
+========================================================= */
+
+function changeQty(name, delta) {
+
+  if (!cart[name]) {
+    return;
+  }
+
+  cart[name].qty =
+    Math.max(
+      1,
+      Number(
+        cart[name].qty || 1
+      ) +
+      Number(delta || 0)
+    );
+
+  renderCart();
+
+  updateGiftSummary();
 }
 
 
@@ -487,1451 +248,1664 @@ function changeQty(
 
 function removeProduct(name) {
 
-    if (!name) {
-        return;
-    }
+  delete cart[name];
 
-    delete cart[name];
+  document
+    .querySelectorAll(".gift-product")
+    .forEach((product) => {
 
-    document
-        .querySelectorAll(".gift-product")
-        .forEach(product => {
+      if (
+        product.dataset.name === name
+      ) {
 
-            if (
-                product.dataset.name ===
-                name
-            ) {
+        product.classList.remove(
+          "selected"
+        );
+      }
+    });
 
-                product.classList.remove(
-                    "selected"
-                );
+  renderCart();
 
-            }
-
-        });
-
-    renderCart();
-
-    updateGiftSummary();
-
+  updateGiftSummary();
 }
 
 
 /* =========================================================
-   GET SELECTED PRODUCTS
+   SELECTED PRODUCTS
 ========================================================= */
 
 function getSelectedProducts() {
 
-    return Object.values(cart);
-
+  return Object.values(cart);
 }
 
 
 /* =========================================================
-   ESCAPE HTML
+   TOTAL CALCULATION
 ========================================================= */
 
-function escapeHtml(value) {
+function getSelectedTotal() {
 
-    return String(value).replace(
-        /[&<>'"]/g,
-        character => {
+  return Object.values(cart).reduce(
+    (total, product) => {
 
-            const entities = {
-
-                "&": "&amp;",
-
-                "<": "&lt;",
-
-                ">": "&gt;",
-
-                "'": "&#39;",
-
-                '"': "&quot;"
-
-            };
-
-            return entities[
-                character
-            ];
-
-        }
-    );
-
-}
-
-
-/* =========================================================
-   ESCAPE ATTRIBUTE
-========================================================= */
-
-function escapeAttr(value) {
-
-    return String(value)
-
-        .replace(
-            /\\/g,
-            "\\\\"
-        )
-
-        .replace(
-            /'/g,
-            "\\'"
+      const price =
+        Number(
+          product.price || 0
         );
 
+      const qty =
+        Number(
+          product.qty || 1
+        );
+
+      return (
+        total +
+        price * qty
+      );
+
+    },
+    0
+  );
+}
+
+
+function getTotalQuantity() {
+
+  return getSelectedProducts()
+    .reduce(
+      (total, product) =>
+        total +
+        Number(
+          product.qty || 1
+        ),
+      0
+    );
 }
 
 
 /* =========================================================
-   RENDER CART
+   CART DISPLAY
 ========================================================= */
 
 function renderCart() {
 
-    const box =
-        document.getElementById(
-            "selectedProductsList"
-        );
+  const box =
+    document.getElementById(
+      "selectedProductsList"
+    );
 
-    /*
-     * Cart only exists on customize page.
-     */
+  if (!box) {
+    return;
+  }
 
-    if (!box) {
-        return;
-    }
+  const items =
+    getSelectedProducts();
 
-    const items =
-        getSelectedProducts();
+  const count =
+    getTotalQuantity();
 
-    /*
-     * Total item count.
-     */
+  const counter =
+    document.getElementById(
+      "cartCount"
+    );
 
-    const count =
-        items.reduce(
-            (sum, product) =>
-                sum + product.qty,
-            0
-        );
+  if (counter) {
 
-    /*
-     * Cart counter.
-     */
+    counter.textContent =
+      `${count} item${
+        count === 1 ? "" : "s"
+      }`;
+  }
 
-    const counter =
-        document.getElementById(
-            "cartCount"
-        );
-
-    if (counter) {
-
-        counter.textContent =
-            `${count} item${
-                count === 1
-                    ? ""
-                    : "s"
-            }`;
-
-    }
-
-    /*
-     * Empty cart.
-     */
-
-    if (!items.length) {
-
-        box.innerHTML =
-            "<p>No products selected yet.</p>";
-
-        return;
-    }
-
-    /*
-     * Render selected products.
-     */
+  if (!items.length) {
 
     box.innerHTML =
-        items
-            .map(product => {
+      "<p>No products selected yet.</p>";
 
-                const safeName =
-                    escapeHtml(
-                        product.name
-                    );
+    return;
+  }
 
-                const safeAttribute =
-                    escapeAttr(
-                        product.name
-                    );
+  box.innerHTML =
+    items
+      .map((product) => {
 
-                const itemTotal =
-                    Number(product.price) *
-                    Number(product.qty);
+        const lineTotal =
+          Number(
+            product.price || 0
+          ) *
+          Number(
+            product.qty || 1
+          );
 
-                return `
+        return `
+          <div class="cart-row">
 
-                    <div class="cart-row">
+            <div class="cart-name">
 
-                        <div class="cart-name">
+              <strong>
+                ${escapeHtml(
+                  product.name
+                )}
+              </strong>
 
-                            <strong>
-                                ${safeName}
-                            </strong>
+              <small>
+                ${formatCurrency(
+                  product.price
+                )} each
+              </small>
 
-                            <small>
-                                ₹${product.price} each
-                            </small>
+            </div>
 
-                        </div>
 
-                        <div class="qty-control">
+            <div class="qty-control">
 
-                            <button
-                                type="button"
-                                aria-label="Decrease quantity"
-                                onclick="changeQty('${safeAttribute}', -1)"
-                            >
-                                −
-                            </button>
+              <button
+                type="button"
+                onclick="changeQty('${escapeAttr(
+                  product.name
+                )}', -1)"
+              >
+                −
+              </button>
 
-                            <span>
-                                ${product.qty}
-                            </span>
+              <span>
+                ${Number(
+                  product.qty || 1
+                )}
+              </span>
 
-                            <button
-                                type="button"
-                                aria-label="Increase quantity"
-                                onclick="changeQty('${safeAttribute}', 1)"
-                            >
-                                +
-                            </button>
+              <button
+                type="button"
+                onclick="changeQty('${escapeAttr(
+                  product.name
+                )}', 1)"
+              >
+                +
+              </button>
 
-                        </div>
+            </div>
 
-                        <div class="cart-price">
-                            ₹${itemTotal}
-                        </div>
 
-                        <button
-                            type="button"
-                            class="remove-btn"
-                            onclick="removeProduct('${safeAttribute}')"
-                        >
-                            Remove
-                        </button>
+            <div class="cart-price">
+              ${formatCurrency(
+                lineTotal
+              )}
+            </div>
 
-                    </div>
 
-                `;
+            <button
+              type="button"
+              class="remove-btn"
+              onclick="removeProduct('${escapeAttr(
+                product.name
+              )}')"
+            >
+              Remove
+            </button>
 
-            })
-            .join("");
-
+          </div>
+        `;
+      })
+      .join("");
 }
 
 
 /* =========================================================
-   UPDATE GIFT SUMMARY
+   STEP 03 + STEP 04 SUMMARY
 ========================================================= */
 
 function updateGiftSummary() {
 
-    const items =
-        getSelectedProducts();
+  const items =
+    getSelectedProducts();
 
-    /*
-     * Selected product total.
-     */
+  const total =
+    getSelectedTotal();
 
-    const total =
-        items.reduce(
-            (sum, product) =>
-                sum +
-                (
-                    Number(product.price) *
-                    Number(product.qty)
-                ),
-            0
-        );
 
-    /*
-     * Quantity.
-     */
+  /* Budget */
 
-    const quantityInput =
-        document.getElementById(
-            "quantity"
-        );
+  const budgetSummary =
+    document.getElementById(
+      "budgetSummary"
+    );
 
-    const budgetQuantity =
-        Math.max(
-            1,
-            Number(
-                quantityInput?.value ||
-                1
-            )
-        );
+  if (budgetSummary) {
 
-    /*
-     * Total available budget.
-     */
+    budgetSummary.textContent =
+      `Budget per gift: ${formatCurrency(
+        selectedBudget
+      )}`;
+  }
 
-    const budgetOrder =
-        selectedBudget *
-        budgetQuantity;
 
-    /*
-     * Remaining budget.
-     */
+  /* Products */
 
-    const remaining =
-        budgetOrder -
-        total;
+  const productSummary =
+    document.getElementById(
+      "productSummary"
+    );
 
-    /*
-     * Budget summary.
-     */
+  if (productSummary) {
 
-    const budgetSummary =
-        document.getElementById(
-            "budgetSummary"
-        );
+    productSummary.innerHTML =
+      items.length
 
-    if (budgetSummary) {
+        ? items
+            .map((product) => {
 
-        budgetSummary.textContent =
-            `Budget per gift: ₹${
-                selectedBudget || 0
-            }`;
+              const qty =
+                Number(
+                  product.qty || 1
+                );
 
-    }
+              const price =
+                Number(
+                  product.price || 0
+                );
 
-    /*
-     * Product summary.
-     */
+              const lineTotal =
+                price * qty;
 
-    const productSummary =
-        document.getElementById(
-            "productSummary"
-        );
+              return `
+                ${escapeHtml(
+                  product.name
+                )}
+                × ${qty}
+                = ${formatCurrency(
+                  lineTotal
+                )}
+              `;
+            })
+            .join("<br>")
 
-    if (productSummary) {
+        : "No products selected";
+  }
 
-        if (items.length) {
 
-            productSummary.innerHTML =
-                items
-                    .map(product => {
+  /* Selected Total */
 
-                        const productTotal =
-                            Number(product.price) *
-                            Number(product.qty);
+  const totalSummary =
+    document.getElementById(
+      "totalSummary"
+    );
 
-                        return `
-                            ${escapeHtml(
-                                product.name
-                            )}
-                            × ${product.qty}
-                            = ₹${productTotal}
-                        `;
+  if (totalSummary) {
 
-                    })
-                    .join("<br>");
+    totalSummary.textContent =
+      `Selected Total: ${formatCurrency(
+        total
+      )}`;
+  }
 
-        } else {
 
-            productSummary.textContent =
-                "No products selected";
+  /* Estimated Order Value */
 
-        }
+  const grandTotal =
+    document.getElementById(
+      "grandTotal"
+    );
 
-    }
+  if (grandTotal) {
 
-    /*
-     * Total summary.
-     */
+    grandTotal.innerHTML =
+      `<strong>
+        Estimated Order Value:
+        ${formatCurrency(total)}
+      </strong>`;
+  }
 
-    const totalSummary =
-        document.getElementById(
-            "totalSummary"
-        );
 
-    if (totalSummary) {
+  /* STEP 04 ORDER TOTAL */
 
-        totalSummary.textContent =
-            `Selected Total: ₹${total}`;
+  const step4Total =
+    document.getElementById(
+      "step4Total"
+    );
 
-    }
+  if (step4Total) {
 
-    /*
-     * Remaining budget.
-     */
-
-    const remainingSummary =
-        document.getElementById(
-            "remainingSummary"
-        );
-
-    if (remainingSummary) {
-
-        if (remaining >= 0) {
-
-            remainingSummary.textContent =
-                `Remaining Budget: ₹${remaining}`;
-
-            remainingSummary.className =
-                "remaining good";
-
-        } else {
-
-            remainingSummary.textContent =
-                `Over Budget: ₹${Math.abs(
-                    remaining
-                )}`;
-
-            remainingSummary.className =
-                "remaining over";
-
-        }
-
-    }
-
-    /*
-     * Estimated order value.
-     */
-
-    const grandTotal =
-        document.getElementById(
-            "grandTotal"
-        );
-
-    if (grandTotal) {
-
-        grandTotal.innerHTML =
-            `<strong>
-                Estimated Order Value: ₹${total}
-            </strong>`;
-
-    }
-
+    step4Total.textContent =
+      formatCurrency(total);
+  }
 }
 
 
 /* =========================================================
-   ENQUIRY TEXT
+   PRODUCTS FOR EMAIL
+========================================================= */
+
+function buildProductText() {
+
+  return getSelectedProducts()
+    .map((product) => {
+
+      const qty =
+        Number(
+          product.qty || 1
+        );
+
+      const price =
+        Number(
+          product.price || 0
+        );
+
+      const total =
+        price * qty;
+
+      return (
+        `${product.name} | ` +
+        `${qty} | ` +
+        `₹${price.toLocaleString(
+          "en-IN"
+        )} | ` +
+        `₹${total.toLocaleString(
+          "en-IN"
+        )}`
+      );
+
+    })
+    .join("\n");
+}
+
+
+/* =========================================================
+   OLD ENQUIRY SUPPORT
 ========================================================= */
 
 function enquiryText() {
 
-    const items =
-        getSelectedProducts();
+  const items =
+    getSelectedProducts();
 
-    const name =
-        document
-            .getElementById(
-                "customerName"
-            )
-            ?.value
-            .trim() ||
-        "Not provided";
+  const name =
+    document.getElementById(
+      "customerName"
+    )?.value.trim() ||
+    "Not provided";
 
-    const phone =
-        document
-            .getElementById(
-                "customerPhone"
-            )
-            ?.value
-            .trim() ||
-        "Not provided";
+  const phone =
+    document.getElementById(
+      "customerPhone"
+    )?.value.trim() ||
+    "Not provided";
 
-    const occasion =
-        document
-            .getElementById(
-                "occasion"
-            )
-            ?.value ||
-        "Not selected";
+  const occasion =
+    document.getElementById(
+      "occasion"
+    )?.value ||
+    "Not selected";
 
-    const date =
-        document
-            .getElementById(
-                "deliveryDate"
-            )
-            ?.value ||
-        "Not decided";
+  const date =
+    document.getElementById(
+      "deliveryDate"
+    )?.value ||
+    "Not decided";
 
-    const quantity =
-        Math.max(
-            1,
-            Number(
-                document
-                    .getElementById(
-                        "quantity"
-                    )
-                    ?.value ||
-                1
-            )
-        );
+  const note =
+    document.getElementById(
+      "specialMessage"
+    )?.value.trim() ||
+    "None";
 
-    const note =
-        document
-            .getElementById(
-                "specialMessage"
-            )
-            ?.value
-            .trim() ||
-        "None";
+  const total =
+    getSelectedTotal();
 
-    const total =
-        items.reduce(
-            (sum, product) =>
-                sum +
-                (
-                    Number(product.price) *
-                    Number(product.qty)
-                ),
-            0
-        );
+  const products =
+    items.length
 
-    const productList =
-        items.length
+      ? items
+          .map((product) => {
 
-            ? items
-                .map(product => {
+            const lineTotal =
+              Number(
+                product.price || 0
+              ) *
+              Number(
+                product.qty || 1
+              );
 
-                    const productTotal =
-                        Number(product.price) *
-                        Number(product.qty);
+            return (
+              `- ${product.name} | ` +
+              `Qty: ${product.qty} | ` +
+              `${formatCurrency(
+                product.price
+              )} each | ` +
+              `${formatCurrency(
+                lineTotal
+              )}`
+            );
 
-                    return (
-                        `- ${product.name} | ` +
-                        `Qty: ${product.qty} | ` +
-                        `₹${product.price} each | ` +
-                        `₹${productTotal}`
-                    );
+          })
+          .join("\n")
 
-                })
-                .join("\n")
+      : "No products selected";
 
-            : "No products selected";
-
-    return `
-
-DforDecor - GIFT ENQUIRY
+  return `
+DDECOR - GIFT ENQUIRY
 
 Name: ${name}
-
 WhatsApp: ${phone}
-
 Occasion: ${occasion}
-
-Budget per Gift: ₹${
-        selectedBudget || 0
-    }
-
-Total Gift Quantity: ${quantity}
-
+Budget per Gift: ${formatCurrency(
+    selectedBudget
+  )}
 Delivery Date: ${date}
 
-
 Selected Products:
+${products}
 
-${productList}
-
-
-Estimated Order Value: ₹${total}
-
+Estimated Order Value: ${formatCurrency(
+    total
+  )}
 
 Special Requirement:
-
 ${note}
 
-
-Please confirm availability,
-packaging and final pricing.
-
+Please confirm availability, packaging and final pricing.
 `.trim();
-
 }
 
 
-/* =========================================================
-   SEND WHATSAPP ENQUIRY
-========================================================= */
+showOrderSuccessPopup(orderId);
+function showOrderSuccessPopup(orderId) {
+    let popup = document.getElementById("orderSuccessPopup");
 
-function sendWhatsAppEnquiry() {
+    if (!popup) {
+        popup = document.createElement("div");
+        popup.id = "orderSuccessPopup";
 
-    const message =
-        enquiryText();
+        popup.innerHTML = `
+            <div class="order-success-overlay">
+                <div class="order-success-box">
+                    <div class="success-icon">✓</div>
 
-    const url =
-        `https://wa.me/${WA_NUMBER}` +
-        `?text=${encodeURIComponent(
-            message
-        )}`;
+                    <h2>Order Confirmed!</h2>
 
-    window.open(
-        url,
-        "_blank",
-        "noopener,noreferrer"
-    );
+                    <p class="success-main">
+                        Your order has been confirmed successfully.
+                    </p>
 
-}
+                    <p class="success-sub">
+                        We have received your order and payment details.
+                        <br>
+                        We will get back to you soon.
+                    </p>
 
+                    <div class="success-order-id">
+                        Order ID: <strong>${orderId}</strong>
+                    </div>
+                </div>
+            </div>
+        `;
 
-/* =========================================================
-   EMAIL ENQUIRY VALIDATION
-========================================================= */
-
-function validateEmailAddress(email) {
-
-    const pattern =
-        /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-    return pattern.test(email);
-
-}
-
-
-/* =========================================================
-   SEND EMAIL ENQUIRY
- *
- * IMPORTANT:
- *
- * We do NOT try to read Google's response.
- *
- * The browser sends normal form data using POST.
- * Google Apps Script reads it through e.parameter.
- *
- * This avoids the cross-origin JSON response issue.
-========================================================= */
-
-async function sendEmailEnquiry() {
-
-    const status =
-        document.getElementById(
-            "emailStatus"
-        );
-
-    const button =
-        document.getElementById(
-            "emailEnquiryButton"
-        );
-
-
-    /* =====================================================
-       GET CUSTOMER DETAILS
-    ===================================================== */
-
-    const customerName =
-        document
-            .getElementById(
-                "customerName"
-            )
-            ?.value
-            .trim() ||
-        "";
-
-    const customerPhone =
-        document
-            .getElementById(
-                "customerPhone"
-            )
-            ?.value
-            .trim() ||
-        "";
-
-    const customerEmail =
-        document
-            .getElementById(
-                "customerEmail"
-            )
-            ?.value
-            .trim() ||
-        "";
-
-    const occasion =
-        document
-            .getElementById(
-                "occasion"
-            )
-            ?.value ||
-        "";
-
-    const deliveryDate =
-        document
-            .getElementById(
-                "deliveryDate"
-            )
-            ?.value ||
-        "";
-
-    const specialMessage =
-        document
-            .getElementById(
-                "specialMessage"
-            )
-            ?.value
-            .trim() ||
-        "";
-
-    const quantity =
-        Math.max(
-            1,
-            Number(
-                document
-                    .getElementById(
-                        "quantity"
-                    )
-                    ?.value ||
-                1
-            )
-        );
-
-
-    /* =====================================================
-       VALIDATION
-    ===================================================== */
-
-    if (!customerName) {
-
-        alert(
-            "Please enter your name."
-        );
-
-        document
-            .getElementById(
-                "customerName"
-            )
-            ?.focus();
-
-        return;
+        document.body.appendChild(popup);
     }
 
+    popup.style.display = "flex";
 
-    if (!customerPhone) {
+    setTimeout(() => {
+        popup.style.display = "none";
+    }, 3000);
+}
+function sendEmailEnquiry() {
 
-       alert(
-        "Please enter your WhatsApp number with country code."
+  const subject =
+    "Gift Enquiry - DDecor";
+
+  const body =
+    enquiryText();
+
+  const status =
+    document.getElementById(
+      "emailStatus"
     );
 
-    document
-        .getElementById("customerPhone")
-        ?.focus();
+  if (status) {
 
-    return false;
+    status.textContent =
+      "Opening your email app…";
+  }
 
+  window.location.href =
+    `mailto:${EMAIL_TO}?subject=${encodeURIComponent(
+      subject
+    )}&body=${encodeURIComponent(
+      body
+    )}`;
 }
 
-// Remove spaces, hyphens and brackets
-const cleanPhone =
-    customerPhone.replace(/[\s\-()]/g, "");
 
-// Indian WhatsApp number with mandatory +91
-const phonePattern =
-    /^\+91[6-9]\d{9}$/;
+/* =========================================================
+   PAYMENT POPUP
+========================================================= */
 
-if (!phonePattern.test(cleanPhone)) {
+function openPaymentPopup() {
+
+  const customerName =
+    document.getElementById(
+      "orderCustomerName"
+    )?.value.trim() || "";
+
+  const customerPhone =
+    document.getElementById(
+      "orderCustomerPhone"
+    )?.value.trim() || "";
+
+  const customerEmail =
+    document.getElementById(
+      "orderCustomerEmail"
+    )?.value.trim() || "";
+
+  const address =
+    document.getElementById(
+      "shippingAddress"
+    )?.value.trim() || "";
+
+  const city =
+    document.getElementById(
+      "shippingCity"
+    )?.value.trim() || "";
+
+  const pincode =
+    document.getElementById(
+      "shippingPincode"
+    )?.value.trim() || "";
+
+  const deliveryDate =
+    document.getElementById(
+      "orderDeliveryDate"
+    )?.value || "";
+
+  const instructions =
+    document.getElementById(
+      "orderSpecialInstructions"
+    )?.value.trim() || "";
+
+
+  /* CUSTOMER VALIDATION */
+
+  if (!customerName) {
 
     alert(
-        "Please enter a valid WhatsApp number with country code.\n\n" +
-        "Example: +91 9890021266"
+      "Please enter your full name."
     );
 
-    document
-        .getElementById("customerPhone")
-        ?.focus();
-
-    return false;
-    }
+    return;
+  }
 
 
-    if (!occasion) {
+  if (!customerPhone) {
 
-        alert(
-            "Please select an occasion."
-        );
+    alert(
+      "Please enter your WhatsApp / mobile number."
+    );
 
-        document
-            .getElementById(
-                "occasion"
+    return;
+  }
+
+
+  const phoneDigits =
+    customerPhone.replace(
+      /\D/g,
+      ""
+    );
+
+  if (phoneDigits.length < 10) {
+
+    alert(
+      "Please enter a valid mobile number."
+    );
+
+    return;
+  }
+
+
+  /* EMAIL IS OPTIONAL */
+
+  if (
+    customerEmail &&
+    !isValidEmail(
+      customerEmail
+    )
+  ) {
+
+    alert(
+      "Please enter a valid email address."
+    );
+
+    return;
+  }
+
+
+  if (!address) {
+
+    alert(
+      "Please enter your delivery address."
+    );
+
+    return;
+  }
+
+
+  if (!city) {
+
+    alert(
+      "Please enter your city."
+    );
+
+    return;
+  }
+
+
+  if (!/^\d{6}$/.test(
+    pincode
+  )) {
+
+    alert(
+      "Please enter a valid 6 digit pincode."
+    );
+
+    return;
+  }
+
+
+  if (!deliveryDate) {
+
+    alert(
+      "Please select your preferred delivery date."
+    );
+
+    return;
+  }
+
+
+  /* PRODUCTS */
+
+  const products =
+    getSelectedProducts();
+
+  if (!products.length) {
+
+    alert(
+      "Please select at least one product."
+    );
+
+    return;
+  }
+
+
+  /* TOTAL */
+
+  const total =
+    getSelectedTotal();
+
+  if (total <= 0) {
+
+    alert(
+      "Order total cannot be ₹0."
+    );
+
+    return;
+  }
+
+
+  /* ORDER ID */
+
+  const orderId =
+    "DFD-" +
+    Date.now()
+      .toString()
+      .slice(-8);
+
+
+  /* SAVE ORDER */
+
+  currentOrder = {
+
+    orderId,
+
+    customer: {
+
+      name:
+        customerName,
+
+      phone:
+        customerPhone,
+
+      email:
+        customerEmail,
+
+      address:
+        address,
+
+      city:
+        city,
+
+      pincode:
+        pincode,
+
+      deliveryDate:
+        deliveryDate,
+
+      instructions:
+        instructions
+
+    },
+
+    products:
+      products.map(
+        (product) => ({
+
+          name:
+            product.name,
+
+          price:
+            Number(
+              product.price || 0
+            ),
+
+          qty:
+            Number(
+              product.qty || 1
             )
-            ?.focus();
 
-        return;
-    }
+        })
+      ),
+
+    total:
+      total,
+
+    budget:
+      selectedBudget
+
+  };
 
 
-    /* =====================================================
-       SELECTED PRODUCTS
-    ===================================================== */
+  /* FILL PAYMENT POPUP */
 
-    const selected =
-        getSelectedProducts();
+  const orderIdEl =
+    document.getElementById(
+      "paymentOrderId"
+    );
 
-    if (!selected.length) {
+  if (orderIdEl) {
 
-        alert(
-            "Please select at least one product."
+    orderIdEl.textContent =
+      currentOrder.orderId;
+  }
+
+
+  const nameEl =
+    document.getElementById(
+      "paymentCustomerName"
+    );
+
+  if (nameEl) {
+
+    nameEl.textContent =
+      customerName;
+  }
+
+
+  const phoneEl =
+    document.getElementById(
+      "paymentCustomerPhone"
+    );
+
+  if (phoneEl) {
+
+    phoneEl.textContent =
+      customerPhone;
+  }
+
+
+  const emailEl =
+    document.getElementById(
+      "paymentCustomerEmail"
+    );
+
+  if (emailEl) {
+
+    emailEl.textContent =
+      customerEmail ||
+      "Not provided";
+  }
+
+
+  const addressEl =
+    document.getElementById(
+      "paymentDeliveryAddress"
+    );
+
+  if (addressEl) {
+
+    addressEl.textContent =
+      `${address}, ${city} - ${pincode}`;
+  }
+
+
+  const amountEl =
+    document.getElementById(
+      "paymentAmount"
+    );
+
+  if (amountEl) {
+
+    amountEl.textContent =
+      formatCurrency(total);
+  }
+
+
+  /* RESET SCREENSHOT */
+
+  const screenshot =
+    document.getElementById(
+      "paymentScreenshot"
+    );
+
+  if (screenshot) {
+
+    screenshot.value =
+      "";
+  }
+
+
+  const preview =
+    document.getElementById(
+      "paymentScreenshotPreview"
+    );
+
+  if (preview) {
+
+    preview.innerHTML =
+      "";
+  }
+
+
+  const status =
+    document.getElementById(
+      "paymentStatus"
+    );
+
+  if (status) {
+
+    status.textContent =
+      "";
+  }
+
+
+  const button =
+    document.getElementById(
+      "confirmPaymentButton"
+    );
+
+  if (button) {
+
+    button.disabled =
+      false;
+
+    button.textContent =
+      "✓ Payment Done – Place Order";
+  }
+
+
+  /* OPEN PAYMENT MODAL */
+
+  const modal =
+    document.getElementById(
+      "paymentModal"
+    );
+
+  if (!modal) {
+
+    alert(
+      "Payment popup was not found. Please check paymentModal in customize.html."
+    );
+
+    return;
+  }
+
+
+  modal.style.display =
+    "block";
+
+  modal.setAttribute(
+    "aria-hidden",
+    "false"
+  );
+
+  document.body.style.overflow =
+    "hidden";
+}
+
+
+/* =========================================================
+   CLOSE PAYMENT POPUP
+========================================================= */
+
+function closePaymentPopup() {
+
+  const modal =
+    document.getElementById(
+      "paymentModal"
+    );
+
+  if (modal) {
+
+    modal.style.display =
+      "none";
+
+    modal.setAttribute(
+      "aria-hidden",
+      "true"
+    );
+  }
+
+  document.body.style.overflow =
+    "";
+}
+
+
+/* =========================================================
+   SCREENSHOT PREVIEW
+========================================================= */
+
+function setupScreenshotPreview() {
+
+  const input =
+    document.getElementById(
+      "paymentScreenshot"
+    );
+
+  if (!input) {
+    return;
+  }
+
+
+  input.addEventListener(
+    "change",
+    function () {
+
+      const file =
+        this.files?.[0];
+
+      const preview =
+        document.getElementById(
+          "paymentScreenshotPreview"
         );
 
+      if (!preview) {
         return;
+      }
+
+
+      preview.innerHTML =
+        "";
+
+
+      if (!file) {
+        return;
+      }
+
+
+      if (
+        !file.type.startsWith(
+          "image/"
+        )
+      ) {
+
+        alert(
+          "Please select a payment screenshot image."
+        );
+
+        this.value =
+          "";
+
+        return;
+      }
+
+
+      const reader =
+        new FileReader();
+
+
+      reader.onload =
+        function (event) {
+
+          preview.innerHTML = `
+            <img
+              src="${event.target.result}"
+              alt="Payment Screenshot Preview"
+            >
+          `;
+        };
+
+
+      reader.readAsDataURL(
+        file
+      );
     }
+  );
+}
 
 
-    /* =====================================================
-       CALCULATE TOTAL
-    ===================================================== */
+/* =========================================================
+   FILE TO BASE64
+========================================================= */
 
-    let selectedTotal = 0;
+function fileToBase64(file) {
 
-    let productText = "";
+  return new Promise(
+    (resolve, reject) => {
 
-
-    selected.forEach(
-        function(item) {
-
-            const itemPrice =
-                Number(
-                    item.price || 0
-                );
-
-            const itemQty =
-                Number(
-                    item.qty || 1
-                );
-
-            const itemTotal =
-                itemPrice *
-                itemQty;
+      const reader =
+        new FileReader();
 
 
-            selectedTotal +=
-                itemTotal;
+      reader.onload =
+        () => resolve(
+          reader.result
+        );
 
 
-            productText +=
-                "• " +
-                item.name +
-                " × " +
-                itemQty +
-                " @ ₹" +
-                itemPrice.toLocaleString(
-                    "en-IN"
-                ) +
-                " = ₹" +
-                itemTotal.toLocaleString(
-                    "en-IN"
-                ) +
-                "\n";
+      reader.onerror =
+        (error) =>
+          reject(error);
 
-        }
+
+      reader.readAsDataURL(
+        file
+      );
+    }
+  );
+}
+
+
+/* =========================================================
+   SEND ORDER TO GOOGLE APPS SCRIPT
+========================================================= */
+
+async function sendOrderToAppsScript(orderData) {
+
+  const body = new URLSearchParams();
+
+  Object.entries(orderData).forEach(
+    ([key, value]) => {
+
+      body.append(
+        key,
+        value ?? ""
+      );
+
+    }
+  );
+
+  try {
+
+    await fetch(
+      GOOGLE_APPS_SCRIPT_URL,
+      {
+        method: "POST",
+
+        mode: "no-cors",
+
+        headers: {
+          "Content-Type":
+            "application/x-www-form-urlencoded;charset=UTF-8"
+        },
+
+        body: body.toString()
+      }
+    );
+
+    return true;
+
+  } catch (error) {
+
+    console.error(
+      "Apps Script submission error:",
+      error
+    );
+
+    throw error;
+  }
+}
+
+/* =========================================================
+   CONFIRM PAYMENT + PLACE ORDER
+========================================================= */
+
+async function confirmPaymentAndPlaceOrder() {
+
+  if (!currentOrder) {
+
+    alert(
+      "Please click Proceed to Payment first."
+    );
+
+    return;
+  }
+
+
+  const screenshotInput =
+    document.getElementById(
+      "paymentScreenshot"
     );
 
 
-    /* =====================================================
-       PREPARE DATA
-    ===================================================== */
-
-    const enquiryData = {
-
-        customer_name:
-            customerName,
-
-        customer_phone:
-            customerPhone,
-
-        customer_email:
-            customerEmail,
-
-        occasion:
-            occasion ||
-            "Not specified",
-
-        budget:
-            selectedBudget || 0,
-
-        quantity:
-            quantity,
-
-        delivery_date:
-            deliveryDate ||
-            "Not specified",
-
-        products:
-            productText ||
-            "No products selected",
-
-        selected_total:
-            selectedTotal,
-
-        estimated_order_value:
-            selectedTotal,
-
-        special_message:
-            specialMessage ||
-            "None"
-
-    };
+  const screenshotFile =
+    screenshotInput?.files?.[0];
 
 
-    /* =====================================================
+  if (!screenshotFile) {
+
+    alert(
+      "Please upload your payment screenshot."
+    );
+
+    return;
+  }
+
+
+  const button =
+    document.getElementById(
+      "confirmPaymentButton"
+    );
+
+
+  const status =
+    document.getElementById(
+      "paymentStatus"
+    );
+
+
+  try {
+
+    /* ================================
        DISABLE BUTTON
-    ===================================================== */
+    ================================= */
 
     if (button) {
 
-        button.disabled = true;
+      button.disabled = true;
 
-        button.innerHTML =
-            "📧 Sending Enquiry...";
-
+      button.textContent =
+        "Submitting Order...";
     }
 
 
     if (status) {
 
-        status.textContent =
-            "Sending your enquiry...";
-
-        status.style.color =
-            "#6B3E2E";
-
+      status.textContent =
+        "Submitting your order. Please wait...";
     }
 
 
-    /* =====================================================
-       SEND TO GOOGLE APPS SCRIPT
-    ===================================================== */
+    /* ================================
+       CONVERT SCREENSHOT TO BASE64
+    ================================= */
 
-    try {
-
-        /*
-         * URLSearchParams creates a normal
-         * application/x-www-form-urlencoded
-         * POST request.
-         *
-         * Google Apps Script receives these
-         * values through e.parameter.
-         */
-
-        const formData =
-            new URLSearchParams();
+    const screenshotData =
+      await fileToBase64(
+        screenshotFile
+      );
 
 
-        Object.keys(
-            enquiryData
-        ).forEach(
-            function(key) {
+    /* ================================
+       GET FRESH ORDER TOTAL
+    ================================= */
 
-                formData.append(
-                    key,
-                    enquiryData[key]
-                );
-
-            }
-        );
+    const orderTotal =
+      getSelectedTotal();
 
 
-        /*
-         * IMPORTANT:
-         *
-         * no custom Content-Type header
-         * is used.
-         *
-         * no response.json()
-         * is used.
-         *
-         * no CORS response is read.
-         */
+    if (orderTotal <= 0) {
 
-        await fetch(
-            GOOGLE_APPS_SCRIPT_URL,
-            {
-                method: "POST",
-
-                mode: "no-cors",
-
-                body: formData
-
-            }
-        );
-
-
-        /*
-         * With no-cors the browser cannot
-         * read Google's response.
-         *
-         * But the POST has been submitted.
-         */
-
-        if (status) {
-
-            status.textContent =
-                "✓ Enquiry sent successfully! We will contact you shortly.";
-
-            status.style.color =
-                "#287A42";
-
-        }
-
-
-        if (button) {
-
-            button.innerHTML =
-                "✓ Enquiry Sent";
-
-        }
-
-
-        alert(
-            "Your enquiry has been sent successfully. We will contact you shortly."
-        );
-
-
-        /*
-         * Allow another enquiry after
-         * successful submission.
-         */
-
-        setTimeout(
-            function() {
-
-                if (button) {
-
-                    button.disabled =
-                        false;
-
-                    button.innerHTML =
-                        "📧 Send Enquiry";
-
-                }
-
-            },
-            3000
-        );
-
-
-    } catch (error) {
-
-        console.error(
-            "DforDecor enquiry error:",
-            error
-        );
-
-
-        if (status) {
-
-            status.textContent =
-                "Unable to send enquiry. Please try WhatsApp.";
-
-            status.style.color =
-                "#B3261E";
-
-        }
-
-
-        if (button) {
-
-            button.disabled =
-                false;
-
-            button.innerHTML =
-                "📧 Send Enquiry";
-
-        }
-
-
-        alert(
-            "Unable to send the enquiry right now. Please try again or use WhatsApp."
-        );
-
+      throw new Error(
+        "Order total cannot be ₹0."
+      );
     }
 
-}
+
+    /* ================================
+       PRODUCT DATA
+    ================================= */
+
+    const productText =
+      buildProductText();
 
 
-/* =========================================================
-   QUANTITY CHANGE LISTENER
-========================================================= */
+    /* ================================
+       ORDER DATA
+    ================================= */
 
-function setupQuantityListener() {
+    const orderData = {
 
-    const quantity =
-        document.getElementById(
-            "quantity"
-        );
+      order_id:
+        currentOrder.orderId,
 
-    if (!quantity) {
-        return;
-    }
+      order_type:
+        "Gift Builder Order",
 
-    quantity.addEventListener(
-        "input",
-        updateGiftSummary
+      payment_status:
+        "Payment Screenshot Submitted",
+
+      customer_name:
+        currentOrder.customer.name,
+
+      customer_phone:
+        currentOrder.customer.phone,
+
+      customer_email:
+        currentOrder.customer.email,
+
+      shipping_address:
+        currentOrder.customer.address,
+
+      shipping_city:
+        currentOrder.customer.city,
+
+      shipping_pincode:
+        currentOrder.customer.pincode,
+
+      delivery_date:
+        currentOrder.customer.deliveryDate,
+
+      special_instructions:
+        currentOrder.customer.instructions ||
+        "None",
+
+      budget_per_gift:
+        currentOrder.budget,
+
+      products:
+        productText,
+
+      order_total:
+        orderTotal,
+
+      upi_id:
+        UPI_ID,
+
+      payment_screenshot_data:
+        screenshotData
+
+    };
+
+
+    /* ================================
+       SEND ORDER TO GOOGLE APPS SCRIPT
+    ================================= */
+
+    await sendOrderToAppsScript(
+      orderData
     );
 
-    quantity.addEventListener(
-        "change",
-        updateGiftSummary
+
+    /*
+      IMPORTANT:
+      Do NOT open WhatsApp.
+      Do NOT redirect to another page.
+
+      User remains on customize.html.
+    */
+
+
+    /* ================================
+       CLOSE PAYMENT POPUP
+    ================================= */
+
+    closePaymentPopup();
+
+
+    /* ================================
+       SHOW SUCCESS MESSAGE
+    ================================= */
+
+    showOrderSuccessPopup(
+      currentOrder.orderId
     );
 
-}
 
+    /* ================================
+       CLEAR CART
+    ================================= */
 
-/* =========================================================
-   CLOSE MENU WHEN NAVIGATION LINK IS CLICKED
-========================================================= */
+    cart = {};
 
-function setupNavigationLinks() {
 
     document
-        .querySelectorAll(
-            "#navLinks a"
-        )
-        .forEach(link => {
+      .querySelectorAll(
+        ".gift-product"
+      )
+      .forEach((product) => {
 
-            link.addEventListener(
-                "click",
-                function() {
+        product.classList.remove(
+          "selected"
+        );
 
-                    closeMenu();
+      });
 
-                }
-            );
 
-        });
+    renderCart();
 
+    updateGiftSummary();
+
+
+  } catch (error) {
+
+    console.error(
+      "Order submission failed:",
+      error
+    );
+
+
+    /* ================================
+       RESTORE BUTTON
+    ================================= */
+
+    if (button) {
+
+      button.disabled =
+        false;
+
+      button.textContent =
+        "✓ Payment Done – Place Order";
+    }
+
+
+    if (status) {
+
+      status.textContent =
+        "Unable to submit order.";
+    }
+
+
+    alert(
+      "There was a problem submitting the order. Please try again."
+    );
+
+  }
+
+}
+
+/* =========================================================
+   WHATSAPP ORDER MESSAGE
+========================================================= */
+function showOrderSuccessPopup(orderId) {
+
+  // Remove existing popup if any
+  const existing =
+    document.getElementById("orderSuccessPopup");
+
+  if (existing) {
+    existing.remove();
+  }
+
+  const popup =
+    document.createElement("div");
+
+  popup.id = "orderSuccessPopup";
+
+  popup.innerHTML = `
+    <div class="order-success-overlay">
+
+      <div class="order-success-box">
+
+        <div class="success-icon">
+          ✓
+        </div>
+
+        <h2>Order Confirmed!</h2>
+
+        <p class="success-main">
+          Your order has been confirmed successfully.
+        </p>
+
+        <p class="success-sub">
+          We have received your order and payment details.
+          <br>
+          <strong>We will get back to you soon.</strong>
+        </p>
+
+        <div class="success-order-id">
+          Order ID:
+          <strong>${orderId}</strong>
+        </div>
+
+      </div>
+
+    </div>
+  `;
+
+  document.body.appendChild(popup);
+
+  // Force popup to be visible
+  popup.style.display = "flex";
+
+  // Remove after 3 seconds
+  setTimeout(() => {
+
+    popup.style.opacity = "0";
+    popup.style.transition =
+      "opacity 0.3s ease";
+
+    setTimeout(() => {
+
+      popup.remove();
+
+    }, 300);
+
+  }, 3000);
+}
+function buildOrderWhatsAppMessage(
+  order
+) {
+
+  const products =
+    order.products
+      .map((product) => {
+
+        const lineTotal =
+          Number(
+            product.price || 0
+          ) *
+          Number(
+            product.qty || 1
+          );
+
+        return (
+          `${product.name} - ` +
+          `Qty: ${product.qty} - ` +
+          `${formatCurrency(
+            lineTotal
+          )}`
+        );
+
+      })
+      .join("\n");
+
+
+  return `
+DforDecor - Gift Order
+
+Order ID:
+${order.orderId}
+
+Name:
+${order.customer.name}
+
+WhatsApp:
+${order.customer.phone}
+
+Email:
+${order.customer.email || "Not provided"}
+
+Products:
+${products}
+
+Order Total:
+${formatCurrency(
+    order.total
+  )}
+
+Delivery Date:
+${order.customer.deliveryDate}
+
+Shipping Address:
+${order.customer.address},
+${order.customer.city} -
+${order.customer.pincode}
+
+Thank you for choosing DforDecor.
+`.trim();
 }
 
 
 /* =========================================================
-   CLOSE MENU WHEN CLICKING OUTSIDE
+   SUCCESS POPUP
 ========================================================= */
 
-function setupOutsideMenuClick() {
+function showOrderSuccessPopup(orderId) {
 
-    document.addEventListener(
-        "click",
-        function(event) {
+  // Remove any old popup
+  const oldPopup =
+    document.getElementById("orderSuccessPopup");
 
-            const nav =
-                document.getElementById(
-                    "navLinks"
-                );
+  if (oldPopup) {
+    oldPopup.remove();
+  }
 
-            const menuButton =
-                document.querySelector(
-                    ".menu-btn"
-                );
 
-            if (
-                !nav ||
-                !menuButton
-            ) {
+  // Create popup
+  const popup =
+    document.createElement("div");
 
-                return;
+  popup.id =
+    "orderSuccessPopup";
 
-            }
 
-            if (
+  popup.innerHTML = `
 
-                nav.classList.contains(
-                    "active"
-                )
+    <div class="order-success-overlay">
 
-                &&
+      <div class="order-success-box">
 
-                !nav.contains(
-                    event.target
-                )
+        <div class="success-icon">
+          ✓
+        </div>
 
-                &&
+        <h2>
+          Order Confirmed!
+        </h2>
 
-                !menuButton.contains(
-                    event.target
-                )
+        <p class="success-main">
+          Your order has been confirmed successfully.
+        </p>
 
-            ) {
+        <p class="success-sub">
+          We have received your order and payment details.
+          <br>
+          <strong>We will get back to you soon.</strong>
+        </p>
 
-                closeMenu();
+        <div class="success-order-id">
+          Order ID:
+          <strong>${orderId}</strong>
+        </div>
 
-            }
+      </div>
 
-        }
-    );
+    </div>
+
+  `;
+
+
+  // Add popup to page
+  document.body.appendChild(
+    popup
+  );
+
+
+  // Make absolutely sure it is visible
+  popup.style.display =
+    "flex";
+
+
+  // Automatically remove after 3 seconds
+  setTimeout(() => {
+
+    popup.style.opacity =
+      "0";
+
+    popup.style.transition =
+      "opacity 0.3s ease";
+
+    setTimeout(() => {
+
+      popup.remove();
+
+    }, 300);
+
+  }, 3000);
 
 }
 
 
 /* =========================================================
-   CLOSE MENU WITH ESCAPE KEY
-========================================================= */
-
-function setupEscapeMenu() {
-
-    document.addEventListener(
-        "keydown",
-        function(event) {
-
-            if (
-                event.key ===
-                "Escape"
-            ) {
-
-                closeMenu();
-
-            }
-
-        }
-    );
-
-}
-
-
-/* =========================================================
-   HERO IMAGE SLIDESHOW
-========================================================= */
-
-function initHeroSlideshow() {
-
-    const slides =
-        document.querySelectorAll(
-            ".hero-slideshow .slide"
-        );
-
-    const dots =
-        document.querySelectorAll(
-            ".slide-dots .dot"
-        );
-
-    if (!slides.length) {
-        return;
-    }
-
-    let currentSlide = 0;
-
-    let slideshowTimer = null;
-
-
-    function showSlide(index) {
-
-        if (
-            index < 0 ||
-            index >= slides.length
-        ) {
-
-            index = 0;
-
-        }
-
-        slides.forEach(
-            (slide, i) => {
-
-                slide.classList.toggle(
-                    "active",
-                    i === index
-                );
-
-            }
-        );
-
-
-        dots.forEach(
-            (dot, i) => {
-
-                dot.classList.toggle(
-                    "active",
-                    i === index
-                );
-
-            }
-        );
-
-
-        currentSlide = index;
-
-    }
-
-
-    function nextSlide() {
-
-        const next =
-            (
-                currentSlide + 1
-            ) %
-            slides.length;
-
-        showSlide(next);
-
-    }
-
-
-    function startSlideshow() {
-
-        clearInterval(
-            slideshowTimer
-        );
-
-        slideshowTimer =
-            setInterval(
-                nextSlide,
-                3500
-            );
-
-    }
-
-
-    function stopSlideshow() {
-
-        clearInterval(
-            slideshowTimer
-        );
-
-        slideshowTimer = null;
-
-    }
-
-
-    dots.forEach(
-        (dot, index) => {
-
-            if (
-                index >=
-                slides.length
-            ) {
-
-                return;
-
-            }
-
-            dot.addEventListener(
-                "click",
-                function() {
-
-                    showSlide(index);
-
-                    startSlideshow();
-
-                }
-            );
-
-        }
-    );
-
-
-    document.addEventListener(
-        "visibilitychange",
-        function() {
-
-            if (
-                document.hidden
-            ) {
-
-                stopSlideshow();
-
-            } else {
-
-                startSlideshow();
-
-            }
-
-        }
-    );
-
-
-    showSlide(0);
-
-    startSlideshow();
-
-}
-
-
-/* =========================================================
-   INITIALIZE WEBSITE
+   ESCAPE KEY
 ========================================================= */
 
 document.addEventListener(
-    "DOMContentLoaded",
-    async function() {
+  "keydown",
+  (event) => {
 
-        /*
-         * 1. Header + footer
-         */
+    if (
+      event.key === "Escape"
+    ) {
 
-        await loadCommonComponents();
+      const paymentModal =
+        document.getElementById(
+          "paymentModal"
+        );
 
+      if (
+        paymentModal &&
+        paymentModal.style.display ===
+          "block"
+      ) {
 
-        /*
-         * 2. Language
-         */
-
-        loadSavedLanguage();
-
-
-        /*
-         * 3. Cart
-         */
-
-        renderCart();
-
-
-        /*
-         * 4. Summary
-         */
-
-        updateGiftSummary();
-
-
-        /*
-         * 5. Quantity
-         */
-
-        setupQuantityListener();
-
-
-        /*
-         * 6. Navigation
-         */
-
-        setupNavigationLinks();
-
-        setupOutsideMenuClick();
-
-        setupEscapeMenu();
-
-
-        /*
-         * 7. Slideshow
-         */
-
-        initHeroSlideshow();
-
-
-        /*
-         * 8. Menu accessibility
-         */
-
-        const menuButton =
-            document.querySelector(
-                ".menu-btn"
-            );
-
-        if (menuButton) {
-
-            menuButton.setAttribute(
-                "aria-expanded",
-                "false"
-            );
-
-            menuButton.setAttribute(
-                "aria-label",
-                "Open menu"
-            );
-
-        }
-
+        closePaymentPopup();
+      }
     }
+  }
+);
+
+
+/* =========================================================
+   INITIALIZE
+========================================================= */
+
+document.addEventListener(
+  "DOMContentLoaded",
+  () => {
+
+    setLanguage(
+      localStorage.getItem(
+        "ddecor-language"
+      ) || "en"
+    );
+
+
+    renderCart();
+
+
+    updateGiftSummary();
+
+
+    setupScreenshotPreview();
+
+  }
 );

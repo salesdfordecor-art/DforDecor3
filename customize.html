@@ -90,111 +90,82 @@
 
             <div class="budget-grid">
 
-                <div
-                    class="budget-card"
-                    onclick="selectBudget(99, this)"
-                >
-                    <h3>₹99</h3>
-
-                    <p
-                        data-en="Small gifting"
-                        data-mr="छोटे गिफ्ट"
-                    >
-                        Small gifting
-                    </p>
-                </div>
+    <!-- Below 99 -->
+    <div class="budget-card" onclick="selectBudget(99, this)">
+        <div class="budget-price">Below</div>
+        <div class="budget-label">₹99</div>
+    
+    </div>
 
 
-                <div
-                    class="budget-card"
-                    onclick="selectBudget(199, this)"
-                >
-                    <h3>₹199</h3>
-
-                    <p
-                        data-en="Basic options"
-                        data-mr="बेसिक पर्याय"
-                    >
-                        Basic options
-                    </p>
-                </div>
+    <!-- Below 199 -->
+    <div class="budget-card" onclick="selectBudget(199, this)">
+        
+        <div class="budget-price">Below</div>
+        <div class="budget-label">₹199</div>
+        
+    </div>
 
 
-                <div
-                    class="budget-card"
-                    onclick="selectBudget(299, this)"
-                >
-                    <h3>₹299</h3>
-
-                    <p
-                        data-en="Smart gifting"
-                        data-mr="स्मार्ट गिफ्टिंग"
-                    >
-                        Smart gifting
-                    </p>
-                </div>
+    <!-- Below 299 -->
+    <div class="budget-card popular" onclick="selectBudget(299, this)">
 
 
-                <div
-                    class="budget-card"
-                    onclick="selectBudget(399, this)"
-                >
-                    <h3>₹399</h3>
-
-                    <p
-                        data-en="More choices"
-                        data-mr="अधिक पर्याय"
-                    >
-                        More choices
-                    </p>
-                </div>
+      
+        <div class="budget-price">Below</div>
+        <div class="budget-label">₹299</div>
+        
+    </div>
 
 
-                <div
-                    class="budget-card"
-                    onclick="selectBudget(499, this)"
-                >
-                    <h3>₹499</h3>
-
-                    <p
-                        data-en="Premium feel"
-                        data-mr="प्रीमियम गिफ्ट"
-                    >
-                        Premium feel
-                    </p>
-                </div>
+    <!-- Below 399 -->
+    <div class="budget-card" onclick="selectBudget(399, this)">
+        <div class="budget-icon">💝</div>
+        <div class="budget-price">₹399</div>
+        <div class="budget-label">Below ₹399</div>
+        <p data-en="More choices" data-mr="अधिक पर्याय">
+            More choices
+        </p>
+        <span class="budget-action">Explore Gifts →</span>
+    </div>
 
 
-                <div
-                    class="budget-card"
-                    onclick="selectBudget(799, this)"
-                >
-                    <h3>₹799</h3>
-
-                    <p
-                        data-en="Premium gifting"
-                        data-mr="प्रीमियम गिफ्टिंग"
-                    >
-                        Premium gifting
-                    </p>
-                </div>
+    <!-- Below 499 -->
+    <div class="budget-card" onclick="selectBudget(499, this)">
+        <div class="budget-icon">👑</div>
+        <div class="budget-price">₹499</div>
+        <div class="budget-label">Below ₹499</div>
+        <p data-en="Premium feel" data-mr="प्रीमियम गिफ्ट">
+            Premium feel
+        </p>
+        <span class="budget-action">Explore Gifts →</span>
+    </div>
 
 
-                <div
-                    class="budget-card"
-                    onclick="selectBudget(999, this)"
-                >
-                    <h3>₹999+</h3>
+    <!-- Below 799 -->
+    <div class="budget-card" onclick="selectBudget(799, this)">
+        <div class="budget-icon">💎</div>
+        <div class="budget-price">₹799</div>
+        <div class="budget-label">Below ₹799</div>
+        <p data-en="Premium gifting" data-mr="प्रीमियम गिफ्टिंग">
+            Premium gifting
+        </p>
+        <span class="budget-action">Explore Gifts →</span>
+    </div>
 
-                    <p
-                        data-en="Luxury combinations"
-                        data-mr="लक्झरी कॉम्बिनेशन्स"
-                    >
-                        Luxury combinations
-                    </p>
-                </div>
 
-            </div>
+    <!-- Below 999+ -->
+    <div class="budget-card luxury" onclick="selectBudget(999, this)">
+        <div class="budget-icon">👑</div>
+        <div class="budget-price">₹999+</div>
+        <div class="budget-label">Luxury Gifts</div>
+        <p data-en="Luxury combinations" data-mr="लक्झरी कॉम्बिनेशन्स">
+            Luxury combinations
+        </p>
+        <span class="budget-action">Explore Gifts →</span>
+    </div>
+
+</div>
 
         </div>
 
@@ -569,310 +540,247 @@
 
 
     <!-- =====================================================
-         STEP 04 - ENQUIRY FORM
+     STEP 04 - CUSTOMER DETAILS & PAYMENT
+====================================================== -->
+
+<section class="section beige" id="step04">
+
+  <div class="container">
+
+    <div class="section-heading">
+
+      <span class="eyebrow">STEP 04</span>
+
+      <h2
+        data-en="Confirm your order"
+        data-mr="तुमची ऑर्डर निश्चित करा"
+      >
+        Confirm your order
+      </h2>
+
+      <p
+        data-en="Enter your delivery details and complete the payment to place your order."
+        data-mr="डिलिव्हरीची माहिती भरा आणि पेमेंट करून तुमची ऑर्डर निश्चित करा."
+      >
+        Enter your delivery details and complete the payment to place your order.
+      </p>
+
+    </div>
+
+
+    <!-- CUSTOMER DETAILS -->
+
+    <div class="form-card">
+
+      <h3
+        data-en="Customer & Delivery Details"
+        data-mr="ग्राहक आणि डिलिव्हरी माहिती"
+      >
+        Customer & Delivery Details
+      </h3>
+
+
+      <!-- NAME -->
+
+      <label for="orderCustomerName">
+        Full Name
+      </label>
+
+      <input
+        id="orderCustomerName"
+        type="text"
+        required
+        placeholder="Enter your full name"
+      />
+
+
+      <!-- PHONE -->
+
+      <label for="orderCustomerPhone">
+        WhatsApp / Mobile Number
+      </label>
+
+      <input
+        id="orderCustomerPhone"
+        type="tel"
+        required
+        placeholder="Enter WhatsApp / mobile number"
+      />
+
+
+      <!-- EMAIL -->
+
+      <label for="orderCustomerEmail">
+        Email Address
+      </label>
+
+      <input
+        id="orderCustomerEmail"
+        type="email"
+        required
+        placeholder="Enter your email address"
+      />
+
+
+      <!-- ADDRESS -->
+
+      <label for="shippingAddress">
+        Complete Shipping Address
+      </label>
+
+      <textarea
+        id="shippingAddress"
+        rows="4"
+        required
+        placeholder="House / Flat No., Building, Street, Area"
+      ></textarea>
+
+
+      <!-- CITY -->
+
+      <label for="shippingCity">
+        City
+      </label>
+
+      <input
+        id="shippingCity"
+        type="text"
+        required
+        placeholder="Enter city"
+      />
+
+
+      <!-- PINCODE -->
+
+      <label for="shippingPincode">
+        Pincode
+      </label>
+
+      <input
+        id="shippingPincode"
+        type="text"
+        maxlength="6"
+        required
+        placeholder="Enter 6 digit pincode"
+      />
+
+
+      <!-- DELIVERY DATE -->
+
+      <label for="orderDeliveryDate">
+        Preferred Delivery Date
+      </label>
+
+      <input
+        id="orderDeliveryDate"
+        type="date"
+        required
+      />
+
+
+      <!-- SPECIAL INSTRUCTIONS -->
+
+      <label for="orderSpecialInstructions">
+        Special Instructions
+      </label>
+
+      <textarea
+        id="orderSpecialInstructions"
+        rows="3"
+        placeholder="Logo, name printing, message, packaging instructions, etc."
+      ></textarea>
+
+
+      <!-- ORDER TOTAL -->
+
+      <div class="payment-total-box">
+
+        <span>Order Total</span>
+
+        <strong id="step4Total">
+          ₹0
+        </strong>
+
+      </div>
+
+
+      <!-- PAYMENT BUTTON -->
+
+      <button
+        type="button"
+        class="btn btn-gold payment-button"
+        onclick="openPaymentPopup()"
+      >
+        💳
+        <span>
+          Place Your Order
+        </span>
+      </button>
+
+    </div>
+
+  </div>
+
+</section>
+
+    <!-- =====================================================
+         PAYMENT POPUP
     ====================================================== -->
 
-    <section class="section beige">
+    <div id="paymentModal" class="payment-modal" style="display:none;" aria-hidden="true">
 
-        <div class="container">
+        <div class="payment-modal-overlay" onclick="closePaymentPopup()"></div>
 
-            <div class="form-card">
+        <div class="payment-modal-content" role="dialog" aria-modal="true" aria-labelledby="paymentModalTitle">
 
+            <button type="button" class="payment-close" onclick="closePaymentPopup()" aria-label="Close payment popup">×</button>
 
-                <!-- Form Heading -->
-
-                <div class="section-heading">
-
-                    <span class="eyebrow">
-                        STEP 04
-                    </span>
-
-                    <h2
-                        data-en="Send your enquiry"
-                        data-mr="तुमची चौकशी पाठवा"
-                    >
-                        Send your enquiry
-                    </h2>
-
-                    <p
-                        data-en="Share your details and we will confirm availability, packaging and final pricing."
-                        data-mr="तुमची माहिती पाठवा. आम्ही उपलब्धता, पॅकेजिंग आणि अंतिम किंमत कळवू."
-                    >
-                        Share your details and we will confirm availability, packaging and final pricing.
-                    </p>
-
-                </div>
-
-
-                <!-- Name -->
-
-                <label
-                    for="customerName"
-                    data-en="Your Name"
-                    data-mr="तुमचे नाव"
-                >
-                    Your Name
-                </label>
-
-                <input
-                    id="customerName"
-                    type="text"
-                    placeholder="Enter your name"
-                    data-en-placeholder="Enter your name"
-                    data-mr-placeholder="तुमचे नाव टाका"
-                >
-
-
-                <!-- Email -->
-
-                <label
-                    for="customerEmail"
-                    data-en="Email Address"
-                    data-mr="ईमेल पत्ता"
-                >
-                    Email Address
-                </label>
-
-                <input
-                    id="customerEmail"
-                    type="email"
-                    placeholder="Enter your email address"
-                    data-en-placeholder="Enter your email address"
-                    data-mr-placeholder="तुमचा ईमेल पत्ता टाका"
-                >
-
-
-                <!-- WhatsApp -->
-
-                <label
-                    for="customerPhone"
-                    data-en="WhatsApp Number"
-                    data-mr="व्हॉट्सअॅप नंबर"
-                >
-                    WhatsApp Number
-                </label>
-
-                <input
-                    id="customerPhone"
-                    type="tel"
-                    placeholder="Enter your WhatsApp number"
-                    data-en-placeholder="Enter your WhatsApp number"
-                    data-mr-placeholder="तुमचा व्हॉट्सअॅप नंबर टाका"
-                >
-
-
-                <!-- Occasion -->
-
-                <label
-                    for="occasion"
-                    data-en="Occasion"
-                    data-mr="प्रसंग"
-                >
-                    Occasion
-                </label>
-
-                <select id="occasion">
-
-                    <option
-                        value=""
-                        data-en="Select Occasion"
-                        data-mr="प्रसंग निवडा"
-                    >
-                        Select Occasion
-                    </option>
-
-                    <option
-                        value="Birthday"
-                        data-en="Birthday"
-                        data-mr="वाढदिवस"
-                    >
-                        Birthday
-                    </option>
-
-                    <option
-                        value="Return Gift"
-                        data-en="Return Gift"
-                        data-mr="रिटर्न गिफ्ट"
-                    >
-                        Return Gift
-                    </option>
-
-                    <option
-                        value="Baby Shower"
-                        data-en="Baby Shower"
-                        data-mr="डोहाळे जेवण"
-                    >
-                        Baby Shower
-                    </option>
-
-                    <option
-                        value="Wedding"
-                        data-en="Wedding"
-                        data-mr="लग्न"
-                    >
-                        Wedding
-                    </option>
-
-                    <option
-                        value="Anniversary"
-                        data-en="Anniversary"
-                        data-mr="वर्धापनदिन"
-                    >
-                        Anniversary
-                    </option>
-
-                    <option
-                        value="Corporate Gift"
-                        data-en="Corporate Gift"
-                        data-mr="कॉर्पोरेट गिफ्ट"
-                    >
-                        Corporate Gift
-                    </option>
-
-                    <option
-                        value="Diwali"
-                        data-en="Diwali"
-                        data-mr="दिवाळी"
-                    >
-                        Diwali
-                    </option>
-
-                    <option
-                        value="Festival"
-                        data-en="Festival"
-                        data-mr="सण"
-                    >
-                        Festival
-                    </option>
-
-                    <option
-                        value="Other"
-                        data-en="Other"
-                        data-mr="इतर"
-                    >
-                        Other
-                    </option>
-
-                </select>
-
-
-                <!-- Quantity -->
-
-                <label
-                    for="quantity"
-                    data-en="Total Quantity"
-                    data-mr="एकूण संख्या"
-                >
-                    Total Quantity
-                </label>
-
-                <input
-                    id="quantity"
-                    type="number"
-                    min="1"
-                    value="1"
-                >
-
-
-                <!-- Delivery Date -->
-
-                <label
-                    for="deliveryDate"
-                    data-en="Delivery Date"
-                    data-mr="डिलिव्हरी तारीख"
-                >
-                    Delivery Date
-                </label>
-
-                <input
-                    id="deliveryDate"
-                    type="date"
-                >
-
-
-                <!-- Special Requirement -->
-
-                <label
-                    for="specialMessage"
-                    data-en="Special Requirement"
-                    data-mr="विशेष आवश्यकता"
-                >
-                    Special Requirement
-                </label>
-
-                <textarea
-                    id="specialMessage"
-                    placeholder="Name, logo, message, packaging requirement, etc."
-                    data-en-placeholder="Name, logo, message, packaging requirement, etc."
-                    data-mr-placeholder="नाव, लोगो, मेसेज, पॅकेजिंगची गरज इ."
-                ></textarea>
-
-
-                <!-- =================================================
-                     ACTION BUTTONS
-                ================================================== -->
-
-                <div class="action-buttons">
-
-
-                    <!-- WhatsApp -->
-
-                    <button
-                        type="button"
-                        class="btn btn-primary"
-                        onclick="sendWhatsAppEnquiry()"
-                    >
-
-                        📱
-
-                        <span
-                            data-en="Send on WhatsApp"
-                            data-mr="व्हॉट्सअॅपवर पाठवा"
-                        >
-                            Send on WhatsApp
-                        </span>
-
-                    </button>
-
-
-                    <!-- Email / Google Apps Script -->
-
-                    <button
-                        type="button"
-                        id="emailEnquiryButton"
-                        class="btn btn-gold"
-                        onclick="sendEmailEnquiry()"
-                    >
-
-                        📧
-
-                        <span
-                            data-en="Send Enquiry"
-                            data-mr="चौकशी पाठवा"
-                        >
-                            Send Enquiry
-                        </span>
-
-                    </button>
-
-                </div>
-
-
-                <!-- Email Status -->
-
-                <p
-                    id="emailStatus"
-                    class="status"
-                    aria-live="polite"
-                ></p>
-
-
+            <div class="payment-header">
+                <span class="eyebrow">STEP 04</span>
+                <h2 id="paymentModalTitle">Complete Payment</h2>
+                <p>Scan the QR code, complete the payment, upload your payment screenshot and place your order.</p>
             </div>
 
+            <div class="payment-order-id">
+                Order ID: <strong id="paymentOrderId">—</strong>
+            </div>
+
+            <div class="payment-customer-summary">
+                <p><strong>Name:</strong> <span id="paymentCustomerName">—</span></p>
+                <p><strong>WhatsApp:</strong> <span id="paymentCustomerPhone">—</span></p>
+                <p><strong>Email:</strong> <span id="paymentCustomerEmail">—</span></p>
+                <p><strong>Shipping Address:</strong> <span id="paymentDeliveryAddress">—</span></p>
+            </div>
+
+            <div class="payment-amount">
+                <span>Amount Payable</span>
+                <strong id="paymentAmount">₹0</strong>
+            </div>
+
+            <div class="qr-container">
+                <img src="images/Mani_QRCode.jpeg" alt="UPI Payment QR Code" class="payment-qr" />
+                <p>Scan to pay with any UPI app</p>
+                <strong>UPI ID: manishapharande1922-1@okaxis</strong>
+                <small>IDBI Bank 8757</small>
+            </div>
+
+            <div class="payment-note">
+                <strong>Important</strong>
+                <p>Complete the payment using the QR code above. Then upload the payment screenshot below.</p>
+            </div>
+
+            <label for="paymentScreenshot" class="payment-upload-label">Payment Screenshot</label>
+            <input id="paymentScreenshot" type="file" accept="image/png,image/jpeg,image/webp" />
+            <div id="paymentScreenshotPreview" class="payment-screenshot-preview"></div>
+
+            <button type="button" class="btn btn-primary payment-confirm-button" id="confirmPaymentButton" onclick="confirmPaymentAndPlaceOrder()">
+                ✓ Payment Done – Place Order
+            </button>
+
+            <p id="paymentStatus" class="status" aria-live="polite"></p>
+
         </div>
-
-    </section>
-
+    </div>
 
     <!-- =====================================================
          COMMON FOOTER
@@ -887,7 +795,7 @@
 
     <a
         class="whatsapp"
-        href="https://wa.me/919890021266"
+        href="https://wa.me/917447771550"
         target="_blank"
         rel="noopener noreferrer"
     >

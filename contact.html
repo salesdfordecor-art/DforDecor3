@@ -1,79 +1,267 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
-    <title>Contact | DDecor</title>
-    <link rel="stylesheet" href="css/style.css" />
-  </head>
-  <body>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Contact | DDecor</title>
+
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+
+<body>
+
   <!-- COMMON HEADER -->
-<div id="site-header"></div>
-    <section class="page-hero">
-      <div>
-        <span class="eyebrow light"></span>
-        <h1>Contact Us</h1>
-        <p>Tell us what you have in mind.</p>
+  <div id="site-header"></div>
+
+
+  <!-- =====================================================
+       CONTACT HERO
+       KEEP EXISTING HERO BAR
+  ====================================================== -->
+
+  <section class="page-hero">
+
+    <div>
+
+      <span class="eyebrow light"></span>
+
+      <h1>Contact Us</h1>
+
+      <p>  For product availability, bulk quantity, custom packaging or
+          pricing, contact us directly.</p>
+
+    </div>
+
+  </section>
+
+
+
+  <!-- =====================================================
+       CONTACT DETAILS + ENQUIRY FORM
+  ====================================================== -->
+
+<section class="section beige">
+
+  <div class="container">
+
+    <div class="form-card">
+
+      <!-- FORM HEADING -->
+
+      <div class="section-heading">
+
+        <h2
+          data-en="Send your enquiry"
+          data-mr="तुमची चौकशी पाठवा"
+        >
+          Send your enquiry
+        </h2>
+
+        <p
+          data-en="Share your details and we will confirm availability, packaging and final pricing."
+          data-mr="तुमची माहिती पाठवा. आम्ही उपलब्धता, पॅकेजिंग आणि अंतिम किंमत कळवू."
+        >
+          Share your details and we will confirm availability,
+          packaging and final pricing.
+        </p>
+
       </div>
-    </section>
-    <section class="section">
-      <div class="container two-column">
-        <div>
-          <h2>Let's create your gift</h2>
-          <p class="large-text">
-            For product availability, bulk quantity, custom packaging or
-            pricing, contact us directly.
-          </p>
-          <p>
-            <strong>Phone / WhatsApp:</strong>
-            <a href="tel:+919890021266">+91 98900 21266</a>
-          </p>
-          <p>
-            <strong>Email:</strong>
-            <a href="mailto:salesdfordecor@gmail.com"
-              >salesdfordecor@gmail.com</a
-            >
-          </p>
-          <p><strong>Location:</strong> Pune, Maharashtra</p>
-          <div class="buttons">
-            <a
-              class="btn btn-primary"
-              href="https://wa.me/919890021266"
-              target="_blank"
-              >WhatsApp Us</a
-            ><a
-              class="btn btn-gold"
-              href="mailto:salesdfordecor@gmail.com"
-              >Email Us</a
-            >
-          </div>
-        </div>
-        <div class="form-card">
-          <h2>Quick Enquiry</h2>
-          <form onsubmit="sendWhatsAppEnquiry();return false;">
-            <label>Name</label
-            ><input id="customerName" required placeholder="Your name" /><label
-              >WhatsApp Number</label
-            ><input
-              id="customerPhone"
-              required
-              placeholder="Your number"
-            /><label>Requirement</label
-            ><textarea
-              id="specialMessage"
-              required
-              placeholder="Tell us occasion, quantity, budget and requirement"
-            ></textarea
-            ><button class="submit-btn" type="submit">Send on WhatsApp</button>
-          </form>
-        </div>
+
+
+      <!-- NAME -->
+
+      <label
+        for="customerName"
+        data-en="Your Name"
+        data-mr="तुमचे नाव"
+      >
+        Your Name
+      </label>
+
+      <input
+        id="customerName"
+        type="text"
+        required
+        placeholder="Enter your name"
+        data-en-placeholder="Enter your name"
+        data-mr-placeholder="तुमचे नाव टाका"
+      />
+
+
+      <!-- EMAIL -->
+
+      <label
+        for="customerEmail"
+        data-en="Email Address"
+        data-mr="ईमेल पत्ता"
+      >
+        Email Address
+      </label>
+
+      <input
+        id="customerEmail"
+        type="email"
+        placeholder="Enter your email address"
+        data-en-placeholder="Enter your email address"
+        data-mr-placeholder="तुमचा ईमेल पत्ता टाका"
+      />
+
+
+      <!-- WHATSAPP -->
+
+      <label
+        for="customerPhone"
+        data-en="WhatsApp Number"
+        data-mr="व्हॉट्सअॅप नंबर"
+      >
+        WhatsApp Number
+      </label>
+
+      <input
+        id="customerPhone"
+        type="tel"
+        required
+        placeholder="Enter your WhatsApp number"
+        data-en-placeholder="Enter your WhatsApp number"
+        data-mr-placeholder="तुमचा व्हॉट्सअॅप नंबर टाका"
+      />
+
+
+      <!-- QUANTITY -->
+
+      <label
+        for="quantity"
+        data-en="Total Quantity"
+        data-mr="एकूण संख्या"
+      >
+        Total Quantity
+      </label>
+
+      <input
+        id="quantity"
+        type="number"
+        min="1"
+        value="1"
+      />
+
+
+      <!-- DELIVERY DATE -->
+
+      <label
+        for="deliveryDate"
+        data-en="Delivery Date"
+        data-mr="डिलिव्हरी तारीख"
+      >
+        Delivery Date
+      </label>
+
+      <input
+        id="deliveryDate"
+        type="date"
+      />
+
+
+      <!-- SPECIAL REQUIREMENT -->
+
+      <label
+        for="specialMessage"
+        data-en="Special Requirement"
+        data-mr="विशेष आवश्यकता"
+      >
+        Special Requirement
+      </label>
+
+      <textarea
+        id="specialMessage"
+        required
+        placeholder="Name, logo, message, packaging requirement, etc."
+        data-en-placeholder="Name, logo, message, packaging requirement, etc."
+        data-mr-placeholder="नाव, लोगो, मेसेज, पॅकेजिंगची गरज इ."
+      ></textarea>
+
+
+      <!-- ACTION BUTTONS -->
+
+      <div class="action-buttons">
+
+        <!-- WHATSAPP -->
+
+        <button
+          type="button"
+          class="btn btn-primary"
+          onclick="sendWhatsAppEnquiry()"
+        >
+
+          📱
+
+          <span
+            data-en="Send on WhatsApp"
+            data-mr="व्हॉट्सअॅपवर पाठवा"
+          >
+            Send on WhatsApp
+          </span>
+
+        </button>
+
+
+        <!-- EMAIL -->
+
+        <button
+          type="button"
+          id="emailEnquiryButton"
+          class="btn btn-gold"
+          onclick="sendEmailEnquiry()"
+        >
+
+          📧
+
+          <span
+            data-en="Send Enquiry"
+            data-mr="चौकशी पाठवा"
+          >
+            Send Enquiry
+          </span>
+
+        </button>
+
       </div>
-    </section>
-   <!-- COMMON FOOTER -->
-<div id="site-footer"></div>
-    <a class="whatsapp" href="https://wa.me/919890021266" target="_blank"
-      >WhatsApp</a
-    >
-    <script src="js/script.js"></script>
-  </body>
+
+
+      <!-- EMAIL STATUS -->
+
+      <p
+        id="emailStatus"
+        class="status"
+        aria-live="polite"
+      ></p>
+
+    </div>
+
+  </div>
+
+</section>
+
+  <!-- COMMON FOOTER -->
+
+  <div id="site-footer"></div>
+
+
+  <!-- FLOATING WHATSAPP -->
+
+  <a
+    class="whatsapp"
+    href="https://wa.me/917447771550"
+    target="_blank"
+    rel="noopener"
+  >
+    WhatsApp
+  </a>
+
+
+  <script src="js/script.js"></script>
+
+</body>
+
 </html>
