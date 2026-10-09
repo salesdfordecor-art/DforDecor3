@@ -10,6 +10,13 @@
 const GOOGLE_APPS_SCRIPT_URL =
     "https://script.google.com/macros/s/AKfycbztAOSSsBwqJAu-lIkhfvggJxD-UQdG7IM5qd-Y8KZ15oAmHBN8meEl4jTrSrTjv5U/exec";
 
+// Read-only catalogue endpoint. Keep separate from the existing order/enquiry endpoint.
+const CATALOGUE_API_URL = "https://script.google.com/macros/s/AKfycbz543e909diqBYycs0WSps20Yyzgn1Y7TqeR98Kd5Szd0ZqCDyLG2WkD1Q9gGlCo5LUsw/exec";
+const CATALOGUE_PAGE_SIZE = 24;
+let catalogueProducts = [];
+let catalogueVisibleCount = CATALOGUE_PAGE_SIZE;
+let catalogueLoadFailed = false;
+
 const WA_NUMBER = "+91 7447771550";
 
 const EMAIL_TO = "salesdfordecor@gmail.com";
@@ -252,7 +259,9 @@ function selectBudget(amount, el) {
     if (display) {
 
         display.textContent =
-            selectedBudget.toLocaleString("en-IN");
+            selectedBudget >= 999999
+                ? "2000+"
+                : selectedBudget.toLocaleString("en-IN");
 
     }
 
@@ -268,24 +277,13 @@ function selectBudget(amount, el) {
     }
 
 
-    /* Show only products that fit selected budget */
-
+    /* The catalogue is rendered from the live Google Sheets API. */
     document
         .querySelectorAll(".gift-product")
-        .forEach(product => {
+        .forEach(product => product.classList.remove("selected"));
 
-            product.classList.remove("selected");
-
-            const minimum =
-                Number(product.dataset.min || 0);
-
-            product.style.display =
-                minimum <= selectedBudget
-                    ? "block"
-                    : "none";
-
-        });
-
+    catalogueVisibleCount = CATALOGUE_PAGE_SIZE;
+    renderCatalogueProducts();
 
     renderCart();
 
@@ -305,21 +303,308 @@ function selectBudget(amount, el) {
 
 
 /* =========================================================
+   LIVE GOOGLE SHEETS CATALOGUE
+   ========================================================= */
+
+function loadCatalogueProducts() {
+    const status = document.getElementById("catalogueStatus");
+    if (status) status.textContent = "Loading products from our catalogue...";
+
+    // The Apps Script endpoint supports JSONP, which avoids browser CORS restrictions.
+    const callbackName = "dforDecorCatalogueCallback_" + Date.now();
+    const script = document.createElement("script");
+    let finished = false;
+    const cleanup = () => {
+        finished = true;
+        script.remove();
+        try { delete window[callbackName]; } catch (_) { window[callbackName] = undefined; }
+    };
+
+    const timeoutId = window.setTimeout(() => {
+        if (finished) return;
+        cleanup();
+        catalogueLoadFailed = true;
+        showCatalogueError("Catalogue is taking too long to respond. Please refresh the page or try again shortly.");
+    }, 20000);
+
+    window[callbackName] = function (data) {
+        if (finished) return;
+        window.clearTimeout(timeoutId);
+        cleanup();
+        if (!Array.isArray(data)) {
+            catalogueLoadFailed = true;
+            showCatalogueError("The catalogue response was not in the expected format. Please check the Apps Script deployment.");
+            return;
+        }
+
+        catalogueProducts = data.map((p, index) => {
+            // Image Filename can define both the product name and price, e.g. "160-Diya.png".
+            // In that case, use 160 as the price and Diya as the product name.
+            const imageFilename = String(
+                p.imageFilename || p.image_filename || p["Image Filename"] || p.filename || ""
+            ).trim().split(/[\/]/).pop();
+            const filenameWithoutExtension = imageFilename.replace(/\.[^.]+$/, "");
+            const filenameMatch = filenameWithoutExtension.match(/^(\d+(?:\.\d+)?)\s*-\s*(.+)$/);
+            const filenamePrice = filenameMatch ? Number(filenameMatch[1]) : 0;
+            const filenameName = filenameMatch ? filenameMatch[2].trim() : "";
+
+            return {
+                id: String(p.id || p.productId || p["Product ID"] || `product-${index + 1}`),
+                name: filenameName || String(p.name || p.productName || p["Product Name"] || "Gift product").trim(),
+                price: filenamePrice > 0 ? filenamePrice : Number(p.price || p["Price"] || 0),
+                image: String(p.image || p.imageUrl || p["Image URL"] || "").trim(),
+                occasions: Array.isArray(p.occasions || p["Occasions"])
+                    ? (p.occasions || p["Occasions"]).map(x => String(x).trim()).filter(Boolean)
+                    : String(p.occasions || p["Occasions"] || "").split(",").map(x => x.trim()).filter(Boolean),
+                featured: p.featured === true || String(p.featured || p["Featured"]).toLowerCase() === "true"
+            };
+        }).filter(p => p.name && p.price > 0 && Number.isFinite(p.price) && /^https:\/\//i.test(p.image));
+
+        catalogueLoadFailed = false;
+        populateOccasionFilter();
+        renderCatalogueProducts();
+
+        if (status && !catalogueProducts.length) {
+            status.textContent = "No active, approved products are available yet. Please check back soon.";
+        }
+    };
+
+    script.onerror = function () {
+        if (finished) return;
+        window.clearTimeout(timeoutId);
+        cleanup();
+        catalogueLoadFailed = true;
+        showCatalogueError("We couldn't load products. Please check that the catalogue Apps Script is deployed for access by anyone with the link.");
+    };
+
+    script.src = CATALOGUE_API_URL + (CATALOGUE_API_URL.includes("?") ? "&" : "?") + "callback=" + encodeURIComponent(callbackName);
+    script.async = true;
+    document.head.appendChild(script);
+}
+
+function showCatalogueError(message) {
+    const status = document.getElementById("catalogueStatus");
+    const grid = document.getElementById("catalogueProductGrid");
+    const loadMore = document.getElementById("catalogueLoadMore");
+    if (status) status.textContent = message;
+    if (grid) grid.innerHTML = "";
+    if (loadMore) loadMore.style.display = "none";
+}
+
+function normalizeOccasion(value) {
+    return String(value || "")
+        .toLowerCase()
+        .replace(/\bgifts?\b/g, "")
+        .replace(/[^a-z0-9]/g, "");
+}
+
+function getRequestedOccasion() {
+    return new URLSearchParams(window.location.search).get("occasion") || "";
+}
+
+function populateOccasionFilter() {
+    const select = document.getElementById("catalogueOccasion");
+    if (!select) return;
+
+    const current = select.value;
+    const requested = getRequestedOccasion();
+    const occasions = [...new Set(catalogueProducts.flatMap(p => p.occasions))]
+        .sort((a, b) => a.localeCompare(b));
+
+    select.innerHTML = '<option value="">All occasions</option>' + occasions.map(occasion =>
+        `<option value="${escapeHtml(occasion)}">${escapeHtml(occasion)}</option>`
+    ).join("");
+
+    // Prefer the occasion passed from the Occasions page; otherwise preserve the user's choice.
+    const desired = requested || current;
+    if (desired) {
+        const match = occasions.find(occasion =>
+            occasion.toLowerCase() === desired.toLowerCase() ||
+            normalizeOccasion(occasion) === normalizeOccasion(desired)
+        );
+        if (match) {
+            select.value = match;
+        } else if (requested) {
+            // Keep a requested category visible as a filter even if no products are tagged for it yet.
+            const option = document.createElement("option");
+            option.value = requested;
+            option.textContent = requested;
+            select.appendChild(option);
+            select.value = requested;
+        }
+    }
+}
+
+function getFilteredCatalogueProducts() {
+    const search = (document.getElementById("catalogueSearch")?.value || "").trim().toLowerCase();
+    const occasion = document.getElementById("catalogueOccasion")?.value || "";
+    return catalogueProducts.filter(product =>
+        (!selectedBudget || product.price <= selectedBudget) &&
+        (!search || product.name.toLowerCase().includes(search) || product.occasions.some(x => x.toLowerCase().includes(search))) &&
+        (!occasion || product.occasions.some(x =>
+            x.toLowerCase() === occasion.toLowerCase() || normalizeOccasion(x) === normalizeOccasion(occasion)
+        ))
+    );
+}
+
+function renderCatalogueProducts() {
+    const grid = document.getElementById("catalogueProductGrid");
+    const status = document.getElementById("catalogueStatus");
+    const loadMore = document.getElementById("catalogueLoadMore");
+    if (!grid) return;
+
+    if (!catalogueProducts.length) {
+        if (!catalogueLoadFailed && status) status.textContent = "Loading products...";
+        if (loadMore) loadMore.style.display = "none";
+        return;
+    }
+
+    const filtered = getFilteredCatalogueProducts();
+    const shown = filtered.slice(0, catalogueVisibleCount);
+    const selectedNames = new Set(Object.keys(cart));
+
+    grid.innerHTML = shown.map(product => {
+        const isSelected = selectedNames.has(product.name);
+        const occasionText = product.occasions.length
+            ? `<small class="gift-product-occasions">${escapeHtml(product.occasions.join(" · "))}</small>` : "";
+        return `
+            <div class="gift-product${isSelected ? " selected" : ""}"
+                data-product-id="${escapeHtml(product.id)}"
+                data-name="${escapeHtml(product.name)}"
+                data-price="${product.price}"
+                data-min="${product.price}"
+                onclick="toggleProduct(this)"
+                role="button" tabindex="0" aria-pressed="${isSelected ? "true" : "false"}"
+                onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleProduct(this);}">
+                <img src="${escapeHtml(product.image)}" alt="${escapeHtml(product.name)}" loading="lazy" decoding="async"
+                    onerror="this.onerror=null;this.alt='Image unavailable';this.style.opacity='0.35';">
+                <h3>${escapeHtml(product.name)}</h3>
+                ${occasionText}
+                <strong>${formatCurrency(product.price)}</strong>
+                <span class="catalogue-selection-hint">${isSelected ? "✓ Selected" : "Select gift"}</span>
+            </div>`;
+    }).join("");
+
+    if (status) {
+        const filterDescription = [
+            selectedBudget ? `within ${selectedBudget >= 999999 ? "₹2000+" : formatCurrency(selectedBudget)} budget` : "across all budgets",
+            document.getElementById("catalogueOccasion")?.value ? `for ${document.getElementById("catalogueOccasion").selectedOptions[0]?.textContent || "the selected occasion"}` : "for all occasions"
+        ].join(" ");
+        status.textContent = filtered.length
+            ? `Showing ${shown.length} of ${filtered.length} products ${filterDescription}.`
+            : "No gifts match these filters yet. Try another occasion, remove the budget, or use Clear Filters to view all gifts.";
+    }
+   
+setupCataloguePaginationButtons();
+
+if (loadMore) {
+    loadMore.style.display =
+        shown.length < filtered.length ? "inline-flex" : "none";
+}
+
+const previousButton = document.getElementById("catalogueLoadPrevious");
+
+if (previousButton) {
+    previousButton.style.display =
+        catalogueVisibleCount > CATALOGUE_PAGE_SIZE
+            ? "inline-flex"
+            : "none";
+}
+
+}
+
+
+function setupCataloguePaginationButtons() {
+    const loadMore = document.getElementById("catalogueLoadMore");
+
+    if (!loadMore || document.getElementById("catalogueLoadPrevious")) {
+        return;
+    }
+
+    const backButton = document.createElement("button");
+    backButton.id = "catalogueLoadPrevious";
+    backButton.type = "button";
+    backButton.textContent = "← Previous Products";
+
+    backButton.style.cssText = `
+        display: none;
+        margin: 10px;
+        padding: 12px 22px;
+        border: 1px solid #6b3fa0;
+        border-radius: 8px;
+        background: #ffffff;
+        color: #6b3fa0;
+        font-weight: 600;
+        cursor: pointer;
+    `;
+
+    backButton.addEventListener("click", goToPreviousCatalogueProducts);
+
+    loadMore.parentNode.insertBefore(backButton, loadMore);
+}
+
+function loadMoreCatalogueProducts() {
+    catalogueVisibleCount += CATALOGUE_PAGE_SIZE;
+    renderCatalogueProducts();
+}
+
+function goToPreviousCatalogueProducts() {
+    if (catalogueVisibleCount <= CATALOGUE_PAGE_SIZE) {
+        return;
+    }
+
+    catalogueVisibleCount = Math.max(
+        CATALOGUE_PAGE_SIZE,
+        catalogueVisibleCount - CATALOGUE_PAGE_SIZE
+    );
+
+    renderCatalogueProducts();
+
+    document.getElementById("catalogueProductGrid")
+        ?.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+
+function setupCatalogueFilters() {
+    document.getElementById("catalogueSearch")?.addEventListener("input", () => {
+        catalogueVisibleCount = CATALOGUE_PAGE_SIZE;
+        renderCatalogueProducts();
+    });
+    document.getElementById("catalogueOccasion")?.addEventListener("change", () => {
+        catalogueVisibleCount = CATALOGUE_PAGE_SIZE;
+        renderCatalogueProducts();
+    });
+    document.getElementById("catalogueClearFilters")?.addEventListener("click", clearCatalogueFilters);
+}
+
+function clearCatalogueFilters() {
+    const search = document.getElementById("catalogueSearch");
+    const occasion = document.getElementById("catalogueOccasion");
+    if (search) search.value = "";
+    if (occasion) occasion.value = "";
+    // Remove a category passed by the Occasions page so refresh also opens the full catalogue.
+    if (window.location.search.includes("occasion=")) {
+        window.history.replaceState({}, document.title, window.location.pathname + window.location.hash);
+    }
+
+    selectedBudget = 0;
+    document.querySelectorAll(".budget-card").forEach(card => card.classList.remove("active"));
+    const display = document.getElementById("displayBudget");
+    if (display) display.textContent = "Any";
+    const productSection = document.getElementById("productSection");
+    if (productSection) productSection.style.display = "block";
+
+    catalogueVisibleCount = CATALOGUE_PAGE_SIZE;
+    renderCatalogueProducts();
+    updateGiftSummary();
+}
+
+
+/* =========================================================
    PRODUCTS
    ========================================================= */
 
 function toggleProduct(el) {
-
-    if (!selectedBudget) {
-
-        alert(
-            "Please select a budget first."
-        );
-
-        return;
-
-    }
-
 
     const name =
         el.dataset.name;
@@ -344,11 +629,16 @@ function toggleProduct(el) {
     }
 
 
-    el.classList.toggle(
-        "selected",
-        !!cart[name]
-    );
-
+    document
+        .querySelectorAll(".gift-product")
+        .forEach(product => {
+            if (product.dataset.name === name) {
+                product.classList.toggle("selected", !!cart[name]);
+                product.setAttribute("aria-pressed", cart[name] ? "true" : "false");
+                const hint = product.querySelector(".catalogue-selection-hint");
+                if (hint) hint.textContent = cart[name] ? "✓ Selected" : "Select gift";
+            }
+        });
 
     renderCart();
 
@@ -398,9 +688,10 @@ function removeProduct(name) {
 
             if (product.dataset.name === name) {
 
-                product.classList.remove(
-                    "selected"
-                );
+                product.classList.remove("selected");
+                product.setAttribute("aria-pressed", "false");
+                const hint = product.querySelector(".catalogue-selection-hint");
+                if (hint) hint.textContent = "Select gift";
 
             }
 
@@ -607,8 +898,9 @@ function updateGiftSummary() {
 
     if (budgetSummary) {
 
-        budgetSummary.textContent =
-            `Budget per gift: ${formatCurrency(selectedBudget)}`;
+        budgetSummary.textContent = selectedBudget
+            ? `Budget per gift: ${selectedBudget >= 999999 ? "₹2000+" : formatCurrency(selectedBudget)}`
+            : "Budget per gift: No limit selected";
 
     }
 
@@ -830,7 +1122,7 @@ WhatsApp: ${phone}
 
 Occasion: ${occasion}
 
-Budget per Gift: ${formatCurrency(selectedBudget)}
+Budget per Gift: ${selectedBudget ? (selectedBudget >= 999999 ? "₹2000+" : formatCurrency(selectedBudget)) : "No limit selected"}
 
 Delivery Date: ${date}
 
@@ -2000,6 +2292,14 @@ document.addEventListener(
         /* Payment screenshot */
 
         setupScreenshotPreview();
+
+        /* Catalogue and filters are optional; show all active gifts by default. */
+        const productSection = document.getElementById("productSection");
+        if (productSection) productSection.style.display = "block";
+        const displayBudget = document.getElementById("displayBudget");
+        if (displayBudget) displayBudget.textContent = "Any";
+        setupCatalogueFilters();
+        loadCatalogueProducts();
 
     }
 );

@@ -1,426 +1,558 @@
+
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+  <meta name="theme-color" content="#754b82">
+  <meta name="description" content="DforDecor offers thoughtful gift boxes, hampers, return gifts, festive gifts and corporate gifting solutions.">
   <title>DDecor | Thoughtful Gifting</title>
-
   <link rel="stylesheet" href="css/style.css">
+
+  <style>
+    /* Hero slideshow */
+    .hero-image-tile {
+      min-width: 0;
+    }
+
+    #driveHeroSlideshow {
+      position: relative;
+      width: 100%;
+      min-height: 320px;
+      height: 100%;
+      overflow: hidden;
+      border-radius: 18px;
+      background: #f8f3f8;
+    }
+
+    #driveHeroSlideshow .drive-hero-slide {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0;
+      transition: opacity 0.7s ease;
+    }
+
+    #driveHeroSlideshow .drive-hero-slide.active {
+      opacity: 1;
+    }
+
+    #driveHeroSlideshow .drive-slideshow-loading {
+      display: grid;
+      min-height: 320px;
+      place-items: center;
+      padding: 24px;
+      color: #65456e;
+      text-align: center;
+    }
+
+    .drive-slide-dots {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 0;
+    }
+
+    .drive-slide-dot {
+      width: 10px;
+      height: 10px;
+      padding: 0;
+      border: 0;
+      border-radius: 50%;
+      background: #c9bdcc;
+      cursor: pointer;
+    }
+
+    .drive-slide-dot.active {
+      background: #754b82;
+      transform: scale(1.2);
+    }
+
+    .drive-slide-dot:focus-visible {
+      outline: 2px solid #754b82;
+      outline-offset: 4px;
+    }
+
+    @media (max-width: 768px) {
+      #driveHeroSlideshow {
+        min-height: 260px;
+      }
+
+      #driveHeroSlideshow .drive-slideshow-loading {
+        min-height: 260px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      #driveHeroSlideshow .drive-hero-slide {
+        transition: none;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
-<!-- ================= HEADER ================= -->
+  <!-- COMMON HEADER -->
+  <div id="site-header"></div>
 
-<!-- COMMON HEADER -->
-<div id="site-header"></div>
+  <!-- HERO SECTION -->
+  <section class="hero">
+    <div class="hero-content">
 
-
-<!-- ================= HERO ================= -->
-<!-- ================= HERO ================= -->
-
-<section class="hero">
-
-  <div class="hero-content">
-
-    <h1
-      data-en="Gifts for Moments That Matter"
-      data-mr="प्रत्येक खास क्षणासाठी गिफ्ट्स">
-      Gifts for Moments That Matter
-    </h1>
-
-    <p
-      data-en="Gift boxes, hampers, return gifts, festive gifts and bulk gifting — thoughtfully put together to suit your budget and occasion."
-      data-mr="गिफ्ट बॉक्स, हॅम्पर्स, रिटर्न गिफ्ट्स, सणासुदीचे गिफ्ट्स आणि बल्क गिफ्टिंग — तुमच्या बजेट आणि प्रसंगानुसार मनापासून तयार केलेले.">
-      Gift boxes, hampers, return gifts, festive gifts and bulk gifting —
-      thoughtfully put together to suit your budget and occasion.
-    </p>
-
-    <div class="buttons">
-
-      <a
-        href="customize.html"
-        class="btn btn-gold"
-        data-en="Create Your Gift"
-        data-mr="तुमचा गिफ्ट तयार करा">
-        Create Your Gift
-      </a>
-
-      <a
-        href="collections.html"
-        class="btn btn-light"
-        data-en="View Collections"
-        data-mr="कलेक्शन पहा">
-        View Collections
-      </a>
-
-    </div>
-
-  </div>
-
-
-  <!-- HERO PHOTO SLIDESHOW -->
-
-  <div class="hero-image-tile">
-
-    <div class="hero-slideshow">
-
-      <img
-        src="images/gift1.png"
-        alt="DforDecor Gift Collection"
-        class="slide active">
-
-      <img
-        src="images/gift2.png"
-        alt="DforDecor Gift Collection"
-        class="slide">
-
-      <img
-        src="images/gift3.png"
-        alt="DforDecor Gift Collection"
-        class="slide">
-
-      <img
-        src="images/gift4.png"
-        alt="DforDecor Gift Collection"
-        class="slide">
-
-    </div>
-
-    <div class="slide-dots">
-
-      <span class="dot active"></span>
-      <span class="dot"></span>
-      <span class="dot"></span>
-      <span class="dot"></span>
-
-    </div>
-
-  </div>
-
-</section>
-
-
-<!-- ================= GIFTING RANGE ================= -->
-
-<section class="section white">
-
-  <div class="container">
-
-    <div class="section-heading">
-
-      <span
-        class="eyebrow"
-        data-en="OUR GIFTING RANGE"
-        data-mr="आमची गिफ्टिंग रेंज">
-        OUR GIFTING RANGE
-      </span>
-
-      <h2
-        data-en="Something for Every Occasion"
-        data-mr="प्रत्येक प्रसंगासाठी खास पर्याय">
-        Something for Every Occasion
-      </h2>
+      <h1
+        data-en="Gifts for Moments That Matter"
+        data-mr="प्रत्येक खास क्षणासाठी गिफ्ट्स">
+        Gifts for Moments That Matter
+      </h1>
 
       <p
-        data-en="Choose from ready-to-gift options or create your own combination."
-        data-mr="रेडी-टू-गिफ्ट पर्याय निवडा किंवा तुमचे स्वतःचे कॉम्बिनेशन तयार करा.">
-        Choose from ready-to-gift options or create your own combination.
+        data-en="Gift boxes, hampers, return gifts, festive gifts and bulk gifting — thoughtfully put together to suit your budget and occasion."
+        data-mr="गिफ्ट बॉक्स, हॅम्पर्स, रिटर्न गिफ्ट्स, सणासुदीचे गिफ्ट्स आणि बल्क गिफ्टिंग — तुमच्या बजेट आणि प्रसंगानुसार मनापासून तयार केलेले.">
+        Gift boxes, hampers, return gifts, festive gifts and bulk gifting —
+        thoughtfully put together to suit your budget and occasion.
       </p>
 
-    </div>
-
-
-    <div class="card-grid four">
-
-
-      <!-- READY HAMPERS -->
-
-      <div class="category-card">
-
-        <div class="icon">🎁</div>
-
-        <h3
-          data-en="Ready-to-Gift Hampers"
-          data-mr="रेडी-टू-गिफ्ट हॅम्पर्स">
-          Ready-to-Gift Hampers
-        </h3>
-
-        <p
-          data-en="Beautifully arranged gift hampers for personal, festive and special occasions."
-          data-mr="वैयक्तिक, सणासुदीच्या आणि खास प्रसंगांसाठी सुंदरपणे तयार केलेले गिफ्ट.">
-          Beautifully arranged gift hampers for personal,
-          festive and special occasions.
-        </p>
-
-        <a
-          href="collections.html"
-          data-en="Explore →"
-          data-mr="पहा →">
-          Explore →
-        </a>
-
-      </div>
-
-
-      <!-- RETURN GIFTS -->
-
-      <div class="category-card">
-
-        <div class="icon">💝</div>
-
-        <h3
-          data-en="Return Gifts"
-          data-mr="रिटर्न गिफ्ट्स">
-          Return Gifts
-        </h3>
-
-        <p
-          data-en="Thoughtful options for birthdays, baby showers, weddings and special celebrations."
-          data-mr="वाढदिवस, डोहाळे जेवण, लग्न आणि खास समारंभांसाठी सुंदर पर्याय.">
-          Thoughtful options for birthdays, baby showers,
-          weddings and special celebrations.
-        </p>
-
-        <a
-          href="occasions.html"
-          data-en="Explore →"
-          data-mr="पहा →">
-          Explore →
-        </a>
-
-      </div>
-
-
-      <!-- BULK GIFTING -->
-
-      <div class="category-card">
-
-        <div class="icon">🏢</div>
-
-        <h3
-          data-en="Bulk Gifting"
-          data-mr="बल्क गिफ्टिंग">
-          Bulk Gifting
-        </h3>
-
-        <p
-          data-en="Flexible gifting solutions for offices, events, teams and large quantity orders."
-          data-mr="ऑफिस, इव्हेंट्स आणि मोठ्या प्रमाणातील ऑर्डर्ससाठी गिफ्टिंग.">
-          Flexible gifting solutions for offices, events,
-          teams and large quantity orders.
-        </p>
-
-        <a
-          href="occasions.html"
-          data-en="Explore →"
-          data-mr="पहा →">
-          Explore →
-        </a>
-
-      </div>
-
-
-      <!-- BUILD YOUR OWN -->
-
-      <div class="category-card">
-
-        <div class="icon">✨</div>
-
-        <h3
-          data-en="Build Your Own"
-          data-mr="तुमचा गिफ्ट तयार करा">
-          Build Your Own
-        </h3>
-
-        <p
-          data-en="Select your budget, choose products and quantities, then send us your enquiry."
-          data-mr="तुमचे बजेट निवडा, उत्पादने आणि संख्या ठरवा आणि आम्हाला पाठवा.">
-          Select your budget, choose products and quantities,
-          then send us your enquiry.
-        </p>
-
+      <div class="buttons">
         <a
           href="customize.html"
-          data-en="Create →"
-          data-mr="तयार करा →">
-          Create →
+          class="btn btn-gold"
+          data-en="Create Your Gift"
+          data-mr="तुमचा गिफ्ट तयार करा">
+          Create Your Gift
         </a>
 
+        <a
+          href="occasions.html"
+          class="btn btn-light"
+          data-en="View Occassional Gifts"
+          data-mr="प्रसंगानुसार कलेक्शन पहा">
+          View Occassional Gifts
+        </a>
       </div>
 
     </div>
 
-  </div>
+    <!-- GOOGLE DRIVE HERO SLIDESHOW -->
+    <div class="hero-image-tile">
+      <div
+        class="hero-slideshow"
+        id="driveHeroSlideshow"
+        aria-label="Gift inspiration slideshow"
+        aria-live="polite">
+        <div class="drive-slideshow-loading">
+          Loading beautiful gifts...
+        </div>
+      </div>
 
-</section>
-
-
-<!-- ================= POPULAR GIFT IDEAS ================= -->
-
-<section class="section beige">
-
-  <div class="container">
-
-    <div class="section-heading">
-
-      <span
-        class="eyebrow"
-        data-en="POPULAR GIFT IDEAS"
-        data-mr="लोकप्रिय गिफ्ट कल्पना">
-        POPULAR GIFT IDEAS
-      </span>
-
-      <h2
-        data-en="Explore Our Gift Ideas"
-        data-mr="आमच्या गिफ्ट कल्पना पहा">
-        Explore Our Gift Ideas
-      </h2>
-
+      <div
+        class="drive-slide-dots"
+        id="driveSlideDots"
+        aria-label="Slideshow navigation">
+      </div>
     </div>
+  </section>
 
+  <!-- GIFTING RANGE -->
+  <section class="section white">
+    <div class="container">
 
-    <div class="product-grid">
+      <div class="section-heading">
+        <span
+          class="eyebrow"
+          data-en="OUR GIFTING RANGE"
+          data-mr="आमची गिफ्टिंग रेंज">
+          OUR GIFTING RANGE
+        </span>
 
+        <h2
+          data-en="Something for Every Occasion"
+          data-mr="प्रत्येक प्रसंगासाठी खास पर्याय">
+          Something for Every Occasion
+        </h2>
 
-      <!-- HAMPERS -->
+        <p
+          data-en="Choose from ready-to-gift options or create your own combination."
+          data-mr="रेडी-टू-गिफ्ट पर्याय निवडा किंवा तुमचे स्वतःचे कॉम्बिनेशन तयार करा.">
+          Choose from ready-to-gift options or create your own combination.
+        </p>
+      </div>
 
-      <div class="product-card">
+      <div class="card-grid four">
 
-        <img
-          src="images/01-ready-to-gift-hampers.png"
-          alt="Ready-to-Gift Hampers">
-
-        <div class="product-info">
-
+        <div class="category-card">
+          <div class="icon">🎁</div>
           <h3
-            data-en="Ready-to-Gift Hampers"
+            data-en="Occassional Gifts"
             data-mr="रेडी-टू-गिफ्ट हॅम्पर्स">
-            Ready-to-Gift Hampers
+            Occassional Gifts
           </h3>
-
           <p
-            data-en="Elegant combinations for festivals, celebrations and special occasions."
-            data-mr="सण, समारंभ आणि खास प्रसंगांसाठी आकर्षक गिफ्ट कॉम्बिनेशन्स.">
-            Elegant combinations for festivals,
-            celebrations and special occasions.
+            data-en="Beautifully arranged gift hampers for personal, festive and special occasions."
+            data-mr="वैयक्तिक, सणासुदीच्या आणि खास प्रसंगांसाठी सुंदरपणे तयार केलेले गिफ्ट.">
+            Beautifully arranged gift hampers for personal, festive and special occasions.
           </p>
-
+          <a
+            href="occasions.html"
+            data-en="Explore →"
+            data-mr="पहा →">
+            Explore →
+          </a>
         </div>
 
-      </div>
-
-
-      <!-- DRY FRUITS -->
-
-      <div class="product-card">
-
-        <img
-          src="images/02-dry-fruit-gifts.png"
-          alt="Dry Fruit Gifts">
-
-        <div class="product-info">
-
-          <h3
-            data-en="Dry Fruit Gifts"
-            data-mr="ड्राय फ्रूट गिफ्ट्स">
-            Dry Fruit Gifts
-          </h3>
-
-          <p
-            data-en="Premium dry fruit gifting options, beautifully packed for every occasion."
-            data-mr="प्रत्येक प्रसंगासाठी सुंदर पॅक केलेले प्रीमियम ड्राय फ्रूट गिफ्ट्स.">
-            Premium dry fruit gifting options,
-            beautifully packed for every occasion.
-          </p>
-
-        </div>
-
-      </div>
-
-
-      <!-- COOKIES -->
-
-      <div class="product-card">
-
-        <img
-          src="images/04-cookies-treats.png"
-          alt="Cookies and Treats">
-
-        <div class="product-info">
-
-          <h3
-            data-en="Cookies & Treats"
-            data-mr="कुकीज आणि ट्रीट्स">
-            Cookies & Treats
-          </h3>
-
-          <p
-            data-en="Sweet and delicious gifting options for birthdays, celebrations and special moments."
-            data-mr="वाढदिवस, समारंभ आणि खास क्षणांसाठी स्वादिष्ट गिफ्टिंग पर्याय.">
-            Sweet and delicious gifting options
-            for birthdays, celebrations and special moments.
-          </p>
-
-        </div>
-
-      </div>
-
-
-      <!-- RETURN GIFTS -->
-
-      <div class="product-card">
-
-        <img
-          src="images/06-return-gifts.png"
-          alt="Return Gifts">
-
-        <div class="product-info">
-
+        <div class="category-card">
+          <div class="icon">💝</div>
           <h3
             data-en="Return Gifts"
             data-mr="रिटर्न गिफ्ट्स">
             Return Gifts
           </h3>
-
           <p
-            data-en="Memorable gifting options to thank your guests and make celebrations special."
-            data-mr="पाहुण्यांचे आभार मानण्यासाठी आणि समारंभ खास बनवण्यासाठी सुंदर रिटर्न गिफ्ट्स.">
-            Memorable gifting options to thank your guests
-            and make celebrations special.
+            data-en="Thoughtful options for birthdays, baby showers, weddings and special celebrations."
+            data-mr="वाढदिवस, डोहाळे जेवण, लग्न आणि खास समारंभांसाठी सुंदर पर्याय.">
+            Thoughtful options for birthdays, baby showers, weddings and special celebrations.
           </p>
+          <a
+            href="occasions.html"
+            data-en="Explore →"
+            data-mr="पहा →">
+            Explore →
+          </a>
+        </div>
 
+        <div class="category-card">
+          <div class="icon">🏢</div>
+          <h3
+            data-en="Bulk Gifting"
+            data-mr="बल्क गिफ्टिंग">
+            Bulk Gifting
+          </h3>
+          <p
+            data-en="Flexible gifting solutions for offices, events, teams and large quantity orders."
+            data-mr="ऑफिस, इव्हेंट्स आणि मोठ्या प्रमाणातील ऑर्डर्ससाठी गिफ्टिंग.">
+            Flexible gifting solutions for offices, events, teams and large quantity orders.
+          </p>
+          <a
+            href="contact.html"
+            data-en="Explore →"
+            data-mr="पहा →">
+            Explore →
+          </a>
+        </div>
+
+        <div class="category-card">
+          <div class="icon">✨</div>
+          <h3
+            data-en="Build Your Own"
+            data-mr="तुमचा गिफ्ट तयार करा">
+            Build Your Own
+          </h3>
+          <p
+            data-en="Select your budget, choose products and quantities, then send us your enquiry."
+            data-mr="तुमचे बजेट निवडा, उत्पादने आणि संख्या ठरवा आणि आम्हाला पाठवा.">
+            Select your budget, choose products and quantities, then send us your enquiry.
+          </p>
+          <a
+            href="customize.html"
+            data-en="Create →"
+            data-mr="तयार करा →">
+            Create →
+          </a>
         </div>
 
       </div>
-
     </div>
+  </section>
 
-  </div>
+ 
 
-</section>
+  <!-- COMMON FOOTER -->
+  <div id="site-footer"></div>
 
+  <!-- WHATSAPP CONTACT -->
+  <a
+    class="whatsapp"
+    href="https://wa.me/917447771550"
+    target="_blank"
+    rel="noopener noreferrer"
+    aria-label="Contact DforDecor on WhatsApp">
+    WhatsApp
+  </a>
 
-<!-- ================= FOOTER ================= -->
+  <!-- YOUR EXISTING SITE SCRIPT -->
+  <script src="js/script.js"></script>
 
-<!-- COMMON FOOTER -->
-<div id="site-footer"></div>
+  <!-- GOOGLE DRIVE RANDOM SLIDESHOW -->
+  <script>
+  (function () {
+    "use strict";
 
+    /*
+     * Google Apps Script web app URL.
+     * This must be deployed as a Web app with access set to Anyone.
+     */
+    const SLIDESHOW_API =
+      "https://script.google.com/macros/s/AKfycbzVbThuEj7z9EqtZYjErxeoSQAsVhnP1Wg0pHxmDycmm8WKKXMzoNCHc3R2YSmhvcXP/exec";
 
-<!-- ================= WHATSAPP ================= -->
+    const slideshow = document.getElementById("driveHeroSlideshow");
+    const dotsContainer = document.getElementById("driveSlideDots");
 
-<a
-  class="whatsapp"
-  href="https://wa.me/917447771550"
-  target="_blank"
-  rel="noopener">
-  WhatsApp
-</a>
+    if (!slideshow || !dotsContainer) {
+      return;
+    }
 
+    const CHANGE_EVERY_MS = 4000;
+    const REQUEST_TIMEOUT_MS = 20000;
 
-<script src="js/script.js"></script>
+    let currentIndex = 0;
+    let timer = null;
+    let requestCounter = 0;
+
+    function showMessage(message) {
+      if (timer) {
+        clearInterval(timer);
+        timer = null;
+      }
+
+      slideshow.replaceChildren();
+      dotsContainer.replaceChildren();
+
+      const messageElement = document.createElement("div");
+      messageElement.className = "drive-slideshow-loading";
+      messageElement.textContent = message;
+
+      slideshow.appendChild(messageElement);
+    }
+
+    function startSlideshow(images) {
+      if (!Array.isArray(images) || images.length === 0) {
+        showMessage("No gift images were found in the Google Drive folder.");
+        return;
+      }
+
+      slideshow.replaceChildren();
+      dotsContainer.replaceChildren();
+
+      const slides = [];
+      const dots = [];
+      const validImages = images.filter(function (item) {
+        return item &&
+          typeof item.url === "string" &&
+          item.url.startsWith("https://");
+      });
+
+      if (validImages.length === 0) {
+        showMessage("No valid gift image URLs were returned.");
+        return;
+      }
+
+      validImages.forEach(function (item, index) {
+        const img = document.createElement("img");
+
+        img.className = "drive-hero-slide";
+        img.alt = item.name || "DforDecor gift inspiration";
+        img.loading = index === 0 ? "eager" : "lazy";
+        img.decoding = "async";
+        img.dataset.failed = "false";
+
+        const dot = document.createElement("button");
+        dot.type = "button";
+        dot.className = "drive-slide-dot";
+        dot.setAttribute("aria-label", "Show gift image " + (index + 1));
+
+        slides.push(img);
+        dots.push(dot);
+
+        slideshow.appendChild(img);
+        dotsContainer.appendChild(dot);
+
+        img.addEventListener("error", function () {
+          img.dataset.failed = "true";
+          img.classList.remove("active");
+          dot.hidden = true;
+
+          const anyImageAvailable = slides.some(function (slide) {
+            return slide.dataset.failed !== "true" &&
+              slide.complete &&
+              slide.naturalWidth > 0;
+          });
+
+          if (!anyImageAvailable &&
+              slides.every(function (slide) {
+                return slide.dataset.failed === "true";
+              })) {
+            showMessage(
+              "Images could not load. Check Google Drive sharing permissions."
+            );
+            return;
+          }
+
+          if (slides[currentIndex] === img) {
+            goToNextAvailable(currentIndex);
+          }
+        });
+
+        img.addEventListener("load", function () {
+          if (index === 0 && currentIndex === 0) {
+            activate(index);
+          }
+        });
+
+        dot.addEventListener("click", function () {
+          activate(index);
+          restartTimer();
+        });
+
+        img.src = item.url;
+      });
+
+      function activate(index) {
+        if (!slides[index] ||
+            slides[index].dataset.failed === "true") {
+          goToNextAvailable(index);
+          return;
+        }
+
+        currentIndex = index;
+
+        slides.forEach(function (slide, slideIndex) {
+          slide.classList.toggle("active", slideIndex === index);
+        });
+
+        dots.forEach(function (dot, dotIndex) {
+          dot.classList.toggle("active", dotIndex === index);
+          dot.setAttribute(
+            "aria-current",
+            dotIndex === index ? "true" : "false"
+          );
+        });
+      }
+
+      function goToNextAvailable(fromIndex) {
+        for (let step = 1; step <= slides.length; step++) {
+          const nextIndex = (fromIndex + step) % slides.length;
+
+          if (slides[nextIndex].dataset.failed !== "true") {
+            activate(nextIndex);
+            return;
+          }
+        }
+
+        showMessage(
+          "Images could not load. Check Google Drive sharing permissions."
+        );
+      }
+
+      function restartTimer() {
+        if (timer) {
+          clearInterval(timer);
+        }
+
+        timer = setInterval(function () {
+          goToNextAvailable(currentIndex);
+        }, CHANGE_EVERY_MS);
+      }
+
+      /* Wait for the first usable image before displaying a slide. */
+      const firstLoadedIndex = slides.findIndex(function (img) {
+        return img.complete &&
+          img.naturalWidth > 0 &&
+          img.dataset.failed !== "true";
+      });
+
+      if (firstLoadedIndex >= 0) {
+        activate(firstLoadedIndex);
+      } else {
+        const firstImg = slides[0];
+
+        firstImg.addEventListener("load", function onFirstLoad() {
+          firstImg.removeEventListener("load", onFirstLoad);
+          activate(0);
+        });
+
+        firstImg.addEventListener("error", function onFirstError() {
+          firstImg.removeEventListener("error", onFirstError);
+          goToNextAvailable(0);
+        });
+      }
+
+      restartTimer();
+    }
+
+    function loadRandomImages() {
+      requestCounter += 1;
+
+      const callbackName = "dforDecorSlidesCallback" + requestCounter;
+      const script = document.createElement("script");
+
+      let finished = false;
+
+      const timeout = setTimeout(function () {
+        if (finished) return;
+        finished = true;
+
+        delete window[callbackName];
+        script.remove();
+
+        showMessage(
+          "Slideshow timed out. Please check the Apps Script deployment."
+        );
+      }, REQUEST_TIMEOUT_MS);
+
+      function cleanup() {
+        clearTimeout(timeout);
+        delete window[callbackName];
+        script.remove();
+      }
+
+      window[callbackName] = function (result) {
+        if (finished) return;
+        finished = true;
+
+        cleanup();
+
+        if (!result || result.success !== true) {
+          showMessage(
+            "Unable to retrieve images from Google Drive. Check the Apps Script."
+          );
+          return;
+        }
+
+        startSlideshow(result.images);
+      };
+
+      script.onerror = function () {
+        if (finished) return;
+        finished = true;
+
+        cleanup();
+        showMessage(
+          "Could not connect to the slideshow service. Check the Web app URL."
+        );
+      };
+
+      script.src =
+        SLIDESHOW_API +
+        "?callback=" + encodeURIComponent(callbackName) +
+        "&_=" + Date.now();
+
+      document.head.appendChild(script);
+    }
+
+    if (
+      !SLIDESHOW_API.startsWith("https://script.google.com/macros/s/") ||
+      !SLIDESHOW_API.endsWith("/exec")
+    ) {
+      showMessage("Please configure the Google Apps Script slideshow URL.");
+      return;
+    }
+
+    loadRandomImages();
+  })();
+  </script>
 
 </body>
 </html>

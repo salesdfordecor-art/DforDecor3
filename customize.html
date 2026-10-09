@@ -44,8 +44,8 @@
             </h1>
 
             <p
-                data-en="Pick a budget, choose products, set quantities and send us your requirement."
-                data-mr="बजेट निवडा, उत्पादने व संख्या निवडा आणि तुमची गिफ्टची गरज आम्हाला पाठवा."
+                data-en="Browse all gifts, or optionally filter by occasion and budget. Choose products, set quantities and send us your requirement."
+                data-mr="सर्व गिफ्ट्स पहा किंवा प्रसंग आणि बजेटनुसार पर्यायी फिल्टर वापरा. उत्पादने व संख्या निवडा आणि तुमची गरज आम्हाला पाठवा."
             >
                 Pick a budget, choose products, set quantities and send us your requirement.
             </p>
@@ -70,15 +70,15 @@
                 </span>
 
                 <h2
-                    data-en="Choose your budget"
-                    data-mr="तुमचे बजेट निवडा"
+                    data-en="Choose a budget (optional)"
+                    data-mr="बजेट निवडणे ऐच्छिक आहे"
                 >
                     Choose your budget
                 </h2>
 
                 <p
-                    data-en="Products priced at or below the selected budget will appear."
-                    data-mr="निवडलेल्या बजेटपेक्षा कमी किंवा समान किंमतीची उत्पादने दिसतील."
+                    data-en="Choose a budget to narrow the list, or skip this step to see gifts at every price."
+                    data-mr="गिफ्ट्सची यादी मर्यादित करण्यासाठी बजेट निवडा किंवा सर्व किंमतीतील गिफ्ट्स पाहण्यासाठी हा टप्पा वगळा."
                 >
                     Products priced at or below the selected budget will appear.
                 </p>
@@ -97,7 +97,7 @@
 
 
     <!-- Below 299 -->
-    <div class="budget-card" onclick="selectBudget(199, this)">
+    <div class="budget-card" onclick="selectBudget(299, this)">
         
         <div class="budget-price">Upto</div>
         <div class="budget-label">₹299</div>
@@ -106,10 +106,8 @@
 
 
     <!-- Below 299 -->
-    <div class="budget-card popular" onclick="selectBudget(299, this)">
+    <div class="budget-card popular" onclick="selectBudget(599, this)">
 
-
-      
         <div class="budget-price">Upto</div>
         <div class="budget-label">₹599</div>
         
@@ -117,7 +115,7 @@
 
 
     <!-- Below 499 -->
-    <div class="budget-card" onclick="selectBudget(499, this)">
+    <div class="budget-card" onclick="selectBudget(999, this)">
     
         <div class="budget-price">Upto</div>
         <div class="budget-label">₹999</div>
@@ -126,7 +124,7 @@
 
 
     <!-- Below 799 -->
-    <div class="budget-card" onclick="selectBudget(799, this)">
+    <div class="budget-card" onclick="selectBudget(1499, this)">
         
         <div class="budget-price">Upto</div>
         <div class="budget-label"> ₹1499</div>
@@ -135,15 +133,15 @@
 
 
     <!-- Below 999+ -->
-    <div class="budget-card luxury" onclick="selectBudget(999, this)">
+    <div class="budget-card luxury" onclick="selectBudget(1999, this)">
           <div class="budget-price">Upto</div>
-        <div class="budget-price">₹1999</div>
+        <div class="budget-label">₹1999</div>
         
 
     </div>
-<div class="budget-card luxury" onclick="selectBudget(999, this)">
+<div class="budget-card luxury" onclick="selectBudget(999999, this)">
           <div class="budget-price">Onwards</div>
-        <div class="budget-price">₹2000+</div>
+        <div class="budget-label">₹2000+</div>
         
 
     </div>
@@ -161,7 +159,7 @@
     <section
         id="productSection"
         class="section beige"
-        style="display: none;"
+        style="display: block;"
     >
 
         <div class="container">
@@ -179,7 +177,7 @@
                 </span>
 
                 <b>
-                    ₹<span id="displayBudget">0</span>
+                    <span id="displayBudget">Any</span>
                 </b>
 
                 <span
@@ -215,220 +213,28 @@
             </div>
 
 
-            <!-- Product Grid -->
-
-            <div class="product-selection-grid">
-
-
-                <!-- Cookies -->
-
-                <div
-                    class="gift-product"
-                    data-name="Cookies Pack"
-                    data-price="99"
-                    data-min="99"
-                    onclick="toggleProduct(this)"
-                >
-
-                    <img
-                        src="images/04-cookies-treats.png"
-                        alt="Cookies Pack"
-                    >
-
-                    <h3>
-                        Cookies Pack
-                    </h3>
-
-                    <strong>
-                        ₹99
-                    </strong>
-
-                </div>
-
-
-                <!-- Chocolate -->
-
-                <div
-                    class="gift-product"
-                    data-name="Chocolate Pack"
-                    data-price="99"
-                    data-min="99"
-                    onclick="toggleProduct(this)"
-                >
-
-                    <img
-                        src="images/03-chocolate-sweet-gifts.png"
-                        alt="Chocolate Pack"
-                    >
-
-                    <h3>
-                        Chocolate Pack
-                    </h3>
-
-                    <strong>
-                        ₹99
-                    </strong>
-
-                </div>
-
-
-                <!-- Dry Fruit -->
-
-                <div
-                    class="gift-product"
-                    data-name="Dry Fruit Pack"
-                    data-price="199"
-                    data-min="199"
-                    onclick="toggleProduct(this)"
-                >
-
-                    <img
-                        src="images/02-dry-fruit-gifts.png"
-                        alt="Dry Fruit Pack"
-                    >
-
-                    <h3>
-                        Dry Fruit Pack
-                    </h3>
-
-                    <strong>
-                        ₹199
-                    </strong>
-
-                </div>
-
-
-                <!-- Ready Hamper -->
-
-                <div
-                    class="gift-product"
-                    data-name="Ready Gift Hamper"
-                    data-price="299"
-                    data-min="299"
-                    onclick="toggleProduct(this)"
-                >
-
-                    <img
-                        src="images/01-ready-to-gift-hampers.png"
-                        alt="Ready Gift Hamper"
-                    >
-
-                    <h3>
-                        Ready Gift Hamper
-                    </h3>
-
-                    <strong>
-                        ₹299
-                    </strong>
-
-                </div>
-
-
-                <!-- Return Gift -->
-
-                <div
-                    class="gift-product"
-                    data-name="Return Gift Set"
-                    data-price="249"
-                    data-min="249"
-                    onclick="toggleProduct(this)"
-                >
-
-                    <img
-                        src="images/06-return-gifts.png"
-                        alt="Return Gift Set"
-                    >
-
-                    <h3>
-                        Return Gift Set
-                    </h3>
-
-                    <strong>
-                        ₹249
-                    </strong>
-
-                </div>
-
-
-                <!-- Premium Chocolate -->
-
-                <div
-                    class="gift-product"
-                    data-name="Premium Chocolate Gift"
-                    data-price="299"
-                    data-min="299"
-                    onclick="toggleProduct(this)"
-                >
-
-                    <img
-                        src="images/03-chocolate-sweet-gifts.png"
-                        alt="Premium Chocolate Gift"
-                    >
-
-                    <h3>
-                        Premium Chocolate Gift
-                    </h3>
-
-                    <strong>
-                        ₹299
-                    </strong>
-
-                </div>
-
-
-                <!-- Premium Dry Fruit -->
-
-                <div
-                    class="gift-product"
-                    data-name="Premium Dry Fruit Gift"
-                    data-price="399"
-                    data-min="399"
-                    onclick="toggleProduct(this)"
-                >
-
-                    <img
-                        src="images/02-dry-fruit-gifts.png"
-                        alt="Premium Dry Fruit Gift"
-                    >
-
-                    <h3>
-                        Premium Dry Fruit Gift
-                    </h3>
-
-                    <strong>
-                        ₹399
-                    </strong>
-
-                </div>
-
-
-                <!-- Festive Hamper -->
-
-                <div
-                    class="gift-product"
-                    data-name="Festive Hamper"
-                    data-price="499"
-                    data-min="499"
-                    onclick="toggleProduct(this)"
-                >
-
-                    <img
-                        src="images/01-ready-to-gift-hampers.png"
-                        alt="Festive Hamper"
-                    >
-
-                    <h3>
-                        Festive Hamper
-                    </h3>
-
-                    <strong>
-                        ₹499
-                    </strong>
-
-                </div>
-
+            <!-- Live catalogue loaded from the approved Google Sheets catalogue -->
+            <div class="catalogue-tools" style="display:flex;flex-wrap:wrap;gap:12px;margin:0 0 20px;align-items:center;">
+                <label for="catalogueSearch" style="flex:1;min-width:220px;">
+                    <span class="sr-only">Search products</span>
+                    <input id="catalogueSearch" type="search" placeholder="Search gifts..." aria-label="Search gifts"
+                        style="width:100%;padding:12px 14px;border:1px solid #ddd;border-radius:8px;">
+                </label>
+                <label for="catalogueOccasion" style="min-width:180px;">
+                    <span class="sr-only">Filter by occasion</span>
+                    <select id="catalogueOccasion" aria-label="Filter by occasion"
+                        style="width:100%;padding:12px 14px;border:1px solid #ddd;border-radius:8px;background:#fff;">
+                        <option value="">All occasions</option>
+                    </select>
+                </label>
+                <button id="catalogueClearFilters" type="button" class="btn btn-primary" data-en="Clear Filters" data-mr="फिल्टर काढा">Clear Filters</button>
             </div>
 
+            <p id="catalogueStatus" role="status" aria-live="polite" style="margin:0 0 16px;">Loading products...</p>
+            <div id="catalogueProductGrid" class="product-selection-grid"></div>
+            <div style="text-align:center;margin:20px 0 28px;">
+                <button id="catalogueLoadMore" type="button" class="btn btn-primary" style="display:none;" onclick="loadMoreCatalogueProducts()">Load more products</button>
+            </div>
 
             <!-- =================================================
                  CART
